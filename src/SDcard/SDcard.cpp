@@ -3,16 +3,6 @@
 SDcard::SDcard(int sdPin){
   this->sdPin=sdPin;
 }
-
-void SDcard::initSDCard(){
-  Serial.print("Initializing SD card...");
-  if (!SD.begin(sdPin)) {
-    Serial.println("initialization failed!");
-    while (1);
-  }
-  Serial.println("initialization done.");
-}
-
 void SDcard::writeToFile(char *fileName ,char *array){
   sprite=SD.open(fileName,FILE_WRITE);
   if(sprite){

@@ -1,6 +1,6 @@
 #include <Bitmap/GameObject.h>
 #include <Bitmap/Bullet.h>
-
+#include <Interface/Interface.h>
 #include <SchedulerARMAVR.h>
 // #include <DueOverclock.h>
 
@@ -11,6 +11,8 @@ Draw t;
 
 Converter con;
 
+Interface interface;
+
 Keyboard input(10,8);
 MapEditor Map;
 
@@ -20,6 +22,7 @@ void setup() {
   input.begin();
   VGA.begin(320,240,VGA_COLOR);
   b.setSpeed(0.01f);
+  interface.begin();
   //Start the second thread
   Scheduler.startLoop(loop2);
 }
