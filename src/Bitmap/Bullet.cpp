@@ -32,12 +32,17 @@ void Bullet::setSpeed(float speed){
 
 
 bool Bullet::tileMapCollision(unsigned int Map[][20]){
-  int x=getPositionX()/16,y=getPositionY()/16;
+  int x16=getPositionX()/16,y16=getPositionY()/16;
 
-    return (Map[y][x]!=0 ||
-            Map[y][x+1]!=0 ||
-            Map[y+1][x]!=0);
+    return (Map[y16][x16]!=0 ||
+            Map[y16][x16+1]!=0 ||
+            Map[y16+1][x16]!=0);
 
+}
+void Bullet::worldDestroyer(unsigned int Map[][20]){
+  if(tileMapCollision(Map)){
+    Map[y16][x16]=0;
+  }
 }
 
 void Bullet::shoot(GameObject gameObject){
@@ -63,7 +68,7 @@ void Bullet::shoot(GameObject gameObject){
     case DOWN:
       x=gameObject.getPositionX()+gameObject.getWidth()/2;
       y=gameObject.getPositionY()+gameObject.getHeight();
-      while(y<HEIGHT)  {drawAtPosition(x,y);y+=getSpeed();update();}
+      while(y<HEIGHT)  {worldDestroyer(MAP2);drawAtPosition(x,y);y+=getSpeed();update();}
         break;
   }
 

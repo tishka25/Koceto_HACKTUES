@@ -1,3 +1,7 @@
+
+#ifndef SPRITES_H
+#define SPRITES_H
+
 #define AVAILABLE_SPRITES 10
 
 #define MAP_WIDTH 0
@@ -7,6 +11,14 @@
 #define BRICKS_DESTRUCTIVE 1
 #define BRICKS_INDESTRUCTIVE 2
 //TODO all the sprites naming for the MapEditor
+
+static unsigned char bullet_palette[15] = {0x00,0xff};
+static unsigned char bullet[5] = {
+	2,
+	2,
+	1,
+0x00,
+0x00};
 
 static unsigned int MAP[]={
   20,15,
@@ -130,3 +142,6 @@ static unsigned char bricks_destructive[131] = {
 0xcc,0xb3,0x8c,0xcc,0xcc,0xb3,0x8c,0xcc,
 0x88,0xb3,0x88,0x88,0x88,0xb3,0x88,0x88,
 0x33,0x33,0x33,0x33,0x33,0x33,0x33,0x33};
+
+
+#endif
