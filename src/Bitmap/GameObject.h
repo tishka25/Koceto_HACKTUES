@@ -3,9 +3,10 @@
 
 #include "Draw.h"
 #include <VGA.h>
+#include <Controls/PSX.h>
 #include <MapEditor/Sprites.h>
 #include <MapEditor/MapEditor.h>
-#include <Controls/Keyboard.h>
+// #include <Controls/Keyboard.h>
 #include <SDCard/Converter.h>
 // #include <SDCard.h>
 
@@ -40,6 +41,7 @@ public:
    int side=0;
    float x,y;
    float x_prev,y_prev;
+   float speed=1;
    int gravity;
    bool enable=true;
    bool visible=false;
@@ -64,8 +66,10 @@ public:
   void setPosition(float x , float y);
   void setEnabled(bool enable);
   void setType(int _type);
+  void setSpeed(float speed);
   void setRespawnOutOfScreen(bool enable);
   bool getRespawnOutOfScreen();
+  float getSpeed();
   float getPositionX();
   float getPositionY();
   int getType();
@@ -86,7 +90,7 @@ public:
 
 };
 extern GameObject *physics;
-extern Keyboard input;
+extern PSX psx;
 extern MapEditor Map;
 
 

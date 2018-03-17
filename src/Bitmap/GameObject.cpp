@@ -109,6 +109,12 @@ void GameObject::setType(int _type){
 void GameObject::setEnabled(bool enable){
   visible=enable;
 }
+void GameObject::setSpeed(float speed){
+  this->speed=speed;
+}
+float GameObject::getSpeed(){
+  return speed;
+}
 int GameObject::getWidth(){
   return sprite[SPRITE_WIDTH];
 }
