@@ -90,7 +90,6 @@ public:
 
 };
 extern GameObject *physics;
-extern PSX psx;
 extern MapEditor Map;
 
 

@@ -5,13 +5,14 @@
 #define BLUE 10
 #define YELLOW 250
 #define WHITE 255
+#define RED 224
+
 #define MENU_UP 1
 #define MENU_DOWN -1
 
-#define MENU_KEY_UP psxLeft
+#define MENU_KEY_UP psxUp
 #define MENU_KEY_DOWN psxDown
 #define MENU_KEY_SELECT psxX
-#define INPUT_METHOD psx.getInput()
 
 #define SD_PIN 1
 
@@ -33,4 +34,4 @@ class Interface{
     void menuAbout();
   };
 
-// extern Keyboard input;
+ extern Input input;

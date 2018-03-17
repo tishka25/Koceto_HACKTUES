@@ -10,7 +10,7 @@
 
 class Input{
 public:
-  int type;
+  int type=2;
   // Keyboard keyboard;
   PSX psx;
   Input();

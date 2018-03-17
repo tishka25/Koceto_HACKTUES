@@ -5,8 +5,6 @@
 // #include <DueOverclock.h>
 
 GameObject Player(tank_left,tank_left_palette);
-// Bullet b;
-PSX psx;
 Input input(PS_CONTROLLER);
 
 Interface interface;
@@ -18,12 +16,16 @@ int cursor_y;
 
 void setup() {
   Serial.begin(9600);
-  psx.begin();
+  input.begin();
   VGA.begin(320,240,VGA_COLOR);
   Player.setSpeed(1);
-  // interface.post();
-  // interface.bootScreen();
-  // VGA.clear();
+  interface.post();
+  interface.bootScreen();
+
+  //Interface
+    interface.begin();
+    VGA.clear();
+
   //Start the second thread
   Scheduler.startLoop(loop2);
 
@@ -33,8 +35,7 @@ float x=100,y=100;
 void loop() {
   //Map
   // Map.updateGrid(&cursor_x,&cursor_y);
-//Interface
-  // interface.begin();
+
 
   //Main Game
   Player.update();
@@ -60,7 +61,7 @@ void tankMove(){
   int buff_y;
   int buff_x;
 
-    switch (psx.getInput()) {
+    switch (input.getInput()) {
       case psxRight:
         buff_y=static_cast<int>((Player.getPositionY())/16);
         buff_x=static_cast<int>((Player.getPositionX()/16)+1);
