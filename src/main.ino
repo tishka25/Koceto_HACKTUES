@@ -14,8 +14,10 @@ Interface interface;
 
 MapEditor Map;
 
-
+int cursor_x=0;
+int cursor_y=0;
 void setup() {
+
   Serial.begin(9600);
   psx.begin();
   VGA.begin(320,240,VGA_COLOR);
@@ -30,16 +32,14 @@ Map.drawGrid();
 float x=100,y=100;
 
 void loop() {
-<<<<<<< HEAD
+
   //Interface
   interface.begin();
-=======
-Map.updateGrid();
-//Interface
-  // interface.begin();
->>>>>>> 8a7b0c42cda7cfcabebc9b0c2f62129a599dc541
+  Map.updateGrid();
+  Map.updateGrid(&cursor_x,&cursor_y);
 
   //Main Game
+  
   Player.update();
   Player.setPosition(x, y);
   Player.draw();
@@ -51,13 +51,11 @@ Map.updateGrid();
 
 //Second thread for backgroung processing
 void loop2(){
-  // tankMove();
-
+  tankMove();
   //Used to pass task to other tasks
   yield();
   delay(5);
 }
-
 
 void tankMove(){
   int buff_y;
