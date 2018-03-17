@@ -43,7 +43,7 @@ public:
    float x_prev,y_prev;
    float speed=1;
    int gravity;
-   bool enable=true;
+   bool enable=false;
    bool visible=false;
 
   GameObject();

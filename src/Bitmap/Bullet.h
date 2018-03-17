@@ -9,7 +9,7 @@ class Bullet:GameObject
 {
 public:
   GameObject gameObject;
-  float speed=0.01f;
+  float speed=5;
   int color=255;
   int x16,y16;
   Bullet();
@@ -29,6 +29,7 @@ public:
   void worldDestroyer(unsigned int Map[][20]);
 
   void shoot(GameObject gameObject);
+  void loop(GameObject gameObject);
 
 };
 

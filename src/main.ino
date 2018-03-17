@@ -2,23 +2,29 @@
 #include <Bitmap/Bullet.h>
 #include <Interface/Interface.h>
 #include <SchedulerARMAVR.h>
-// #include <DueOverclock.h>
 
 GameObject Player(tank_left,tank_left_palette);
+
+Bullet b;
 Input input(PS_CONTROLLER);
 
 Interface interface;
 
 MapEditor Map;
-int cursor_x;
-int cursor_y;
+int cursor_x,cursor_y;
+float bullet_x,bullet_y;
 
+float x=100,y=100;
 
 void setup() {
   Serial.begin(9600);
   input.begin();
   VGA.begin(320,240,VGA_COLOR);
   Player.setSpeed(1);
+
+  b.setShooter(Player);
+
+  //Interface
   interface.post();
   interface.bootScreen();
 
@@ -28,39 +34,44 @@ void setup() {
 
   //Start the second thread
   Scheduler.startLoop(loop2);
-
+  Scheduler.startLoop(loop3);
 }
-float x=100,y=100;
+
 
 void loop() {
   //Map
   // Map.updateGrid(&cursor_x,&cursor_y);
 
-
   //Main Game
   Player.update();
   Player.setPosition(x, y);
   Player.draw();
+  if(input.getInput()==psxX){
+    b.shoot(Player);
+  }
+  // tankShoot();
 
   Map.drawMap_2d(MAP2);
-  yield();
-  delay(5);
+  delay(1);
 }
 
 //Second thread for backgroung processing
 void loop2(){
   tankMove();
   //Used to pass task to other tasks
+  delay(1);
   yield();
-  delay(5);
+
 }
 
-
+void loop3(){
+  b.loop(Player);
+  yield();
+}
 
 void tankMove(){
   int buff_y;
   int buff_x;
-
     switch (input.getInput()) {
       case psxRight:
         buff_y=static_cast<int>((Player.getPositionY())/16);
@@ -80,7 +91,6 @@ void tankMove(){
           Player.setFacingSide(LEFT);
       }
         break;
-
       case psxDown:
         buff_y=static_cast<int>((Player.getPositionY()/16)+1);
         buff_x=static_cast<int>((Player.getPositionX()/16));
