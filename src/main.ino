@@ -19,7 +19,7 @@ void setup() {
   Serial.begin(9600);
   psx.begin();
   VGA.begin(320,240,VGA_COLOR);
-
+Map.drawGrid();
   // interface.post();
 
   // interface.bootScreen();
@@ -30,7 +30,8 @@ void setup() {
 float x=100,y=100;
 
 void loop() {
-  //Interface
+Map.updateGrid();
+//Interface
   // interface.begin();
 
   //Main Game
@@ -55,7 +56,7 @@ void loop() {
 
 //Second thread for backgroung processing
 void loop2(){
-  tankMove();
+  // tankMove();
 
   //Used to pass task to other tasks
   yield();
@@ -66,7 +67,7 @@ void loop2(){
 void tankMove(){
   int buff_y;
   int buff_x;
-
+  
     switch (psx.getInput()) {
       case psxRight:
         buff_y=static_cast<int>((Player.getPositionY())/16);

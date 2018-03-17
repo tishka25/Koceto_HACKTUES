@@ -9,12 +9,15 @@
 #define PS_CONTROLLER 2
 
 class Input{
+public:
   int type;
   Keyboard keyboard;
   PSX psx;
   Input();
   Input(int type);
   void begin();
+  unsigned int getInput();
+  unsigned int fakeJoystick(char keyInput);
 };
 
 #endif
