@@ -60,6 +60,8 @@ void loop() {
 //Second thread for backgroung processing
 void loop2(){
   tankMove();
+
+
   //Used to pass task to other tasks
   yield();
   delay(5);
