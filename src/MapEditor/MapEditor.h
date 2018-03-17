@@ -31,7 +31,7 @@ class MapEditor{
     void drawMap_1d(unsigned int _map[]);
     void drawMap_2d(unsigned int _map[][20]);
     void drawGrid();
-    void updateGrid();
+    void updateGrid(int *xCursor,int *yCursor);
   private:
 };
 

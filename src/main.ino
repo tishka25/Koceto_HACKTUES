@@ -14,8 +14,10 @@ Draw t;
 
 MapEditor Map;
 
-
+int cursor_x=0;
+int cursor_y=0;
 void setup() {
+
   Serial.begin(9600);
   psx.begin();
   VGA.begin(320,240,VGA_COLOR);
@@ -30,21 +32,21 @@ Map.drawGrid();
 float x=100,y=100;
 
 void loop() {
-Map.updateGrid();
+Map.updateGrid(&cursor_x,&cursor_y);
 //Interface
   // interface.begin();
 
   //Main Game
 
 
-  Player.update();
-  Player.setPosition(x, y);
-  Player.draw();
+//  Player.update();
+//  Player.setPosition(x, y);
+//  Player.draw();
 
   // b.shoot(Player);
   // b.worldDestroyer(MAP2);
 
-  Map.drawMap_2d(MAP2);
+//  Map.drawMap_2d(MAP2);
   delay(5);
   yield();
 }

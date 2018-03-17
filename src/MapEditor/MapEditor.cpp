@@ -92,11 +92,51 @@ void MapEditor::drawGrid(){
 }
 
 
-void MapEditor::updateGrid(){
-	int x=1;
-	int y=1;
-	int width=16;
-  Serial.println(input.getInput());                                              // the button data
-	//INPUT check
-	VGA.drawRect(x*16,y*16,x*16+width,y*16+width,224 );
+void MapEditor::updateGrid(int *xCursor,int *yCursor){
+
+int width=16;
+
+if(input.getInput()==psxUp){
+		VGA.drawRect((*xCursor)*16,(*yCursor)*16,(*xCursor)*16+width,(*yCursor)*16+width,255 );
+
+		(*yCursor)--;
+		if((*yCursor)<=0){
+				(*yCursor)=14;
+		}
+		 VGA.drawRect((*xCursor)*16,(*yCursor)*16,(*xCursor)*16+width,(*yCursor)*16+width,224 );
 }
+if(input.getInput()==psxLeft){
+		VGA.drawRect((*xCursor)*16,(*yCursor)*16,(*xCursor)*16+width,(*yCursor)*16+width,255 );
+
+		(*xCursor)--;
+		if((*xCursor)<=0){
+				(*xCursor)=19;
+		}
+		 VGA.drawRect((*xCursor)*16,(*yCursor)*16,(*xCursor)*16+width,(*yCursor)*16+width,224 );
+}
+
+if(input.getInput()==psxRight){
+		VGA.drawRect((*xCursor)*16,(*yCursor)*16,(*xCursor)*16+width,(*yCursor)*16+width,255 );
+
+		(*xCursor)++;
+		if((*xCursor)>=19){
+				(*xCursor)=0;
+		}
+		 VGA.drawRect((*xCursor)*16,(*yCursor)*16,(*xCursor)*16+width,(*yCursor)*16+width,224 );
+}
+if(input.getInput()==psxDown){
+		VGA.drawRect((*xCursor)*16,(*yCursor)*16,(*xCursor)*16+width,(*yCursor)*16+width,255 );
+
+		(*yCursor)++;
+		if((*yCursor)>=14){
+				(*yCursor)=0;
+		}
+		 VGA.drawRect((*xCursor)*16,(*yCursor)*16,(*xCursor)*16+width,(*yCursor)*16+width,224 );
+	//	VGA.drawRect(xCursor*16,yCursor*16,xCursor*16+width,yCursor*16+width,224 );
+	}
+	delay(120);
+
+}
+
+                                        // the button data
+	//INPUT check}
