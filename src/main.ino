@@ -26,13 +26,14 @@ void setup() {
 
   interface.bootScreen();
   //Start the second thread
+  //Interface
+  interface.begin();
   Scheduler.startLoop(loop2);
 }
 int x=100,y=100;
 int x1=300;
 void loop() {
-  //Interface
-  interface.begin();
+
 
   //Main Game
 
