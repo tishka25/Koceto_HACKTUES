@@ -1,9 +1,10 @@
 #include "MapEditor.h"
-GameObject *spriteSelector;
+GameObject spriteSelector;
 GameObject GameObjects;
+static int GridArray [15][20];
 
 
-
+Input input(PS_CONTROLLER);
 
 
 MapEditor::MapEditor(){}
@@ -84,14 +85,12 @@ void MapEditor::drawGrid(){
 	int width=16;
 	for(int y=0;y<15;y++){
 		for(int x=0;x<20;x++){
-			Serial.println(y);
 			VGA.drawRect(x*16,y*16,x*16+width,y*16+width,255);
 		}
 	}
 }
 
-
-void MapEditor::updateGrid(int *xCursor,int *yCursor){
+int MapEditor::updateGrid(int *xCursor,int *yCursor){
 
 int width=16;
 
@@ -100,40 +99,50 @@ if(input.getInput()==psxUp){
 
 		(*yCursor)--;
 		if((*yCursor)<=0){
-				(*yCursor)=14;
+				(*yCursor)=15;
 		}
-		 VGA.drawRect((*xCursor)*16,(*yCursor)*16,(*xCursor)*16+width,(*yCursor)*16+width,224 );
+		VGA.drawRect((*xCursor)*16,(*yCursor)*16,(*xCursor)*16+width,(*yCursor)*16+width,224 );
 }
 if(input.getInput()==psxLeft){
 		VGA.drawRect((*xCursor)*16,(*yCursor)*16,(*xCursor)*16+width,(*yCursor)*16+width,255 );
 
 		(*xCursor)--;
 		if((*xCursor)<=0){
-				(*xCursor)=19;
+				(*xCursor)=20;
 		}
-		 VGA.drawRect((*xCursor)*16,(*yCursor)*16,(*xCursor)*16+width,(*yCursor)*16+width,224 );
+		VGA.drawRect((*xCursor)*16,(*yCursor)*16,(*xCursor)*16+width,(*yCursor)*16+width,224 );
+
 }
 
 if(input.getInput()==psxRight){
 		VGA.drawRect((*xCursor)*16,(*yCursor)*16,(*xCursor)*16+width,(*yCursor)*16+width,255 );
 
 		(*xCursor)++;
-		if((*xCursor)>=19){
+		if((*xCursor)>=20){
 				(*xCursor)=0;
 		}
-		 VGA.drawRect((*xCursor)*16,(*yCursor)*16,(*xCursor)*16+width,(*yCursor)*16+width,224 );
-}
+		VGA.drawRect((*xCursor)*16,(*yCursor)*16,(*xCursor)*16+width,(*yCursor)*16+width,224 );
+
+	 }
 if(input.getInput()==psxDown){
 		VGA.drawRect((*xCursor)*16,(*yCursor)*16,(*xCursor)*16+width,(*yCursor)*16+width,255 );
 
 		(*yCursor)++;
-		if((*yCursor)>=14){
+		if((*yCursor)>=15){
 				(*yCursor)=0;
 		}
-		 VGA.drawRect((*xCursor)*16,(*yCursor)*16,(*xCursor)*16+width,(*yCursor)*16+width,224 );
-	//	VGA.drawRect(xCursor*16,yCursor*16,xCursor*16+width,yCursor*16+width,224 );
+		VGA.drawRect((*xCursor)*16,(*yCursor)*16,(*xCursor)*16+width,(*yCursor)*16+width,224 );
 	}
+	if(input.getInput()==psxSqu){
+	spriteSelector.setSprite(bricks_destructive,bricks_destructive_palette);
+	 spriteSelector.drawAtPosition((*xCursor)*16,(*yCursor)*16);
+	 spriteSelector.update();
+	 GridArray[(*yCursor)][(*xCursor)]=1;
+ }
 	delay(120);
+if(input.getInput()==psxSlct){
+	return GridArray[20][15];
+}
 
 }
 
