@@ -21,15 +21,19 @@ void setup() {
   psx.begin();
   VGA.begin(320,240,VGA_COLOR);
   Player.setSpeed(1);
-  interface.post();
-  interface.bootScreen();
+  // interface.post();
+  // interface.bootScreen();
+  // VGA.clear();
   //Start the second thread
   Scheduler.startLoop(loop2);
+
 }
 float x=100,y=100;
 
 void loop() {
-
+  //Map
+  // Map.updateGrid(&cursor_x,&cursor_y);
+  
   //Interface
   // interface.begin();
 
@@ -57,7 +61,6 @@ void loop() {
 //Second thread for backgroung processing
 void loop2(){
   tankMove();
-
   //Used to pass task to other tasks
   yield();
   delay(5);

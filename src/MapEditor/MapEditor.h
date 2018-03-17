@@ -1,9 +1,9 @@
-
+// #include <VGA.h>
 // #include <MapEditor/Sprites.h>
 #include <Bitmap/GameObject.h>
 #include <Controls/Input.h>
-
-#include <Psx.h>
+// #include <Controls/Keyboard.h>
+#include <Psx.h>                                          // Includes the Psx Library
 
 #pragma once
 
@@ -36,4 +36,5 @@ class MapEditor{
   private:
 };
 extern Input input;
+
 #endif
