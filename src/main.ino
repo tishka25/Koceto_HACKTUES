@@ -4,7 +4,7 @@
 #include <SchedulerARMAVR.h>
 // #include <DueOverclock.h>
 
-GameObject test(tank_left,tank_palette);
+GameObject Player;
 Bullet b;
 PSX psx;
 
@@ -26,8 +26,6 @@ void setup() {
   // interface.bootScreen();
 
   //Start the second thread
-  //Interface
-  interface.begin();
   Scheduler.startLoop(loop2);
 }
 float x=100,y=100;
@@ -39,12 +37,11 @@ void loop() {
   //Main Game
 
 
+  Player.update();
+  Player.setPosition(x, y);
+  Player.draw();
 
-  test.setFacingSide(DOWN);
-  test.setPosition(x, y);
-  test.draw();
-  test.update();
-  // b.shoot(test);
+  // b.shoot(Player);
   // b.worldDestroyer(MAP2);
 
   Map.drawMap_2d(MAP2);
@@ -61,7 +58,6 @@ void loop() {
 void loop2(){
   tankMove();
 
-
   //Used to pass task to other tasks
   yield();
   delay(5);
@@ -69,19 +65,31 @@ void loop2(){
 
 
 void tankMove(){
-  if(!test.tileMapCollision(MAP2)){
+  if(!Player.tileMapCollision(MAP2)){
     switch (psx.getInput()) {
       case psxRight:
-        x+=test.getSpeed();
+        Player.setSprite(tank_right,tank_right_palette);
+        Player.setFacingSide(RIGHT);
+
+        x+=Player.getSpeed();
         break;
       case psxLeft:
-        x-=test.getSpeed();
+        Player.setSprite(tank_left,tank_left_palette);
+        Player.setFacingSide(LEFT);
+
+        x-=Player.getSpeed();
         break;
       case psxDown:
-        y+=test.getSpeed();
+        Player.setSprite(tank_down,tank_down_palette);
+        Player.setFacingSide(DOWN);
+
+        y+=Player.getSpeed();
         break;
       case psxUp:
-        y-=test.getSpeed();
+        Player.setSprite(tank_up,tank_up_palette);
+        Player.setFacingSide(UP);
+
+        y-=Player.getSpeed();
         break;
     }
   }
