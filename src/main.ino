@@ -14,7 +14,7 @@ Interface interface;
 MapEditor Map;
 int cursor_x;
 int cursor_y;
-bool drawEnable=true;
+
 
 void setup() {
   Serial.begin(9600);
@@ -26,21 +26,18 @@ void setup() {
   // VGA.clear();
   //Start the second thread
   Scheduler.startLoop(loop2);
+
 }
 float x=100,y=100;
 
 void loop() {
   //Map
   // Map.updateGrid(&cursor_x,&cursor_y);
-
+  
   //Interface
   // interface.begin();
 
   //Main Game
-  if(drawEnable){
-  Map.drawGrid();
-  drawEnable=false;
-  }
 
 
   //Interface
@@ -52,11 +49,11 @@ void loop() {
   // interface.begin();
 
   //Main Game
-  // Player.update();
-  // Player.setPosition(x, y);
-  // Player.draw();
-  //
-  // Map.drawMap_2d(MAP2);
+  Player.update();
+  Player.setPosition(x, y);
+  Player.draw();
+
+  Map.drawMap_2d(MAP2);
   delay(5);
   yield();
 }
