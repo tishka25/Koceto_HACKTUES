@@ -5,15 +5,15 @@
 // #include <DueOverclock.h>
 
 GameObject Player(tank_left,tank_left_palette);
-Bullet b;
+// Bullet b;
 PSX psx;
 Input input(PS_CONTROLLER);
-
-Draw t;
 
 Interface interface;
 
 MapEditor Map;
+int cursor_x;
+int cursor_y;
 
 
 void setup() {
@@ -29,7 +29,7 @@ void setup() {
 float x=100,y=100;
 
 void loop() {
-Map.updateGrid();
+  Map.updateGrid(&cursor_x,&cursor_y);
 //Interface
   // interface.begin();
 

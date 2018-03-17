@@ -3,7 +3,7 @@
 #include <Bitmap/GameObject.h>
 #include <Controls/Input.h>
 
-#include <Psx.h>                                          // Includes the Psx Library
+#include <Psx.h>
 
 #pragma once
 

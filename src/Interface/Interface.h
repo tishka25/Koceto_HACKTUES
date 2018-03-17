@@ -11,7 +11,7 @@
 #define MENU_KEY_UP psxLeft
 #define MENU_KEY_DOWN psxDown
 #define MENU_KEY_SELECT psxX
-#define INPUT_METHOD psx.getinput()
+#define INPUT_METHOD psx.getInput()
 
 #define SD_PIN 1
 
