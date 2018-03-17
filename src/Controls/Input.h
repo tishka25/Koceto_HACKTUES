@@ -1,5 +1,5 @@
 #include "PSX.h"
-#include "Keyboard.h"
+// #include "Keyboard.h"
 
 #ifndef INPUT_H
 #define INPUT_H
@@ -11,7 +11,7 @@
 class Input{
 public:
   int type;
-  Keyboard keyboard;
+  // Keyboard keyboard;
   PSX psx;
   Input();
   Input(int type);

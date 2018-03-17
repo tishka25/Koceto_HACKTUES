@@ -1,6 +1,7 @@
 // #include <VGA.h>
 // #include <MapEditor/Sprites.h>
 #include <Bitmap/GameObject.h>
+#include <Controls/Input.h>
 // #include <Controls/Keyboard.h>
 #include <Psx.h>                                          // Includes the Psx Library
 
@@ -31,8 +32,9 @@ class MapEditor{
     void drawMap_1d(unsigned int _map[]);
     void drawMap_2d(unsigned int _map[][20]);
     void drawGrid();
-    int updateGrid(int *xCursor,int *yCursor);
+    int* updateGrid(int *xCursor,int *yCursor);
   private:
 };
+extern Input input;
 
 #endif

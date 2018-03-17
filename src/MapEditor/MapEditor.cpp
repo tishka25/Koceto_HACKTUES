@@ -1,11 +1,10 @@
 #include "MapEditor.h"
-#include <Controls/Input.h>                                       // Includes the Psx Library
+
 GameObject spriteSelector;
 GameObject GameObjects;
 static int GridArray [15][20];
 
 
-Input input(PS_CONTROLLER);
 
 
 MapEditor::MapEditor(){}
@@ -91,7 +90,7 @@ void MapEditor::drawGrid(){
 	}
 }
 
-int MapEditor::updateGrid(int *xCursor,int *yCursor){
+int* MapEditor::updateGrid(int *xCursor,int *yCursor){
 
 int width=16;
 
@@ -139,10 +138,12 @@ if(input.getInput()==psxDown){
 	 spriteSelector.drawAtPosition((*xCursor)*16,(*yCursor)*16);
 	 spriteSelector.update();
 	 GridArray[(*yCursor)][(*xCursor)]=1;
+	 Serial.println(GridArray[(*yCursor)][(*xCursor)]);
  }
 	delay(120);
 if(input.getInput()==psxSlct){
-	return GridArray[20][15];
+	Serial.println(GridArray[5][5]);
+	return (int*)GridArray;
 }
 
 }
