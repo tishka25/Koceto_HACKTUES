@@ -14,7 +14,6 @@ class SDcard{
     SDcard(int sdPin);
     File sprite;
     char *file1;
-    void initSDCard();
     void removeFile(char *fileName);
     void writeToFile(char *fileName ,char *array);
     void readFileToSerial(char *fileName);
