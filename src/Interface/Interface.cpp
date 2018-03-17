@@ -1,18 +1,5 @@
 #include "Interface.h"
 
-#define INTRWIDTH (WIDTH/2)-25
-#define BLUE 10
-#define YELLOW 250
-#define WHITE 255
-#define MENU_UP 1
-#define MENU_DOWN -1
-
-#define MENU_KEY_UP 'w'
-#define MENU_KEY_DOWN 's'
-#define MENU_KEY_SELECT PS2_ENTER
-#define INPUT_METHOD input.input()
-
-#define SD_PIN 1
 
 Interface::Interface(){
 }
@@ -36,7 +23,9 @@ void Interface::begin()
 {
   Interface::setBackground(BLUE);
   Interface::draw();
-  Interface::select();
+  while(backToMenu){
+    Interface::select();
+  }
 }
 void Interface::setBackground(int color){
   VGA.fillRect(0,0,WIDTH,HEIGHT,color);
@@ -58,29 +47,32 @@ void Interface::select(){
 }
 void Interface::move(int direction){
   menu_pos=menu_pos+direction;
-  switch(menu_pos){
-    case 1:
-      Interface::draw();
-      VGA.drawText("Games",INTRWIDTH,(HEIGHT/2)-50,YELLOW);
-      break;
-    case 2:
-      Interface::draw();
-      VGA.drawText("Map Editor",INTRWIDTH,HEIGHT/2,YELLOW);
-      break;
-    case 3:
-      Interface::draw();
-      VGA.drawText("About",INTRWIDTH,(HEIGHT/2)+50,YELLOW);
-      break;
-    default:
-      menu_pos=1;
-      break;
+  if(menu_pos_prev!=menu_pos){
+    switch(menu_pos){
+      case 1:
+        Interface::draw();
+        VGA.drawText("Games",INTRWIDTH,(HEIGHT/2)-50,YELLOW);
+        break;
+      case 2:
+        Interface::draw();
+        VGA.drawText("Map Editor",INTRWIDTH,HEIGHT/2,YELLOW);
+        break;
+      case 3:
+        Interface::draw();
+        VGA.drawText("About",INTRWIDTH,(HEIGHT/2)+50,YELLOW);
+        break;
+      default:
+        menu_pos=1;
+        break;
+    }
+    menu_pos_prev=menu_pos;
   }
 }
 void Interface::menuSelect(int item){
   switch(item){
-    case 1:break; //TODO Start game
-    case 2:break; //TODO Start Map Editor
-    case 3:Interface::menuAbout();break;
+    case 1:backToMenu=0;break; //TODO Start game
+    case 2:backToMenu=0;break; //TODO Start Map Editor
+    case 3:Interface::menuAbout();backToMenu=1;break;
     default:break;
   }
 }
