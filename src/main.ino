@@ -1,57 +1,54 @@
 #include <Bitmap/GameObject.h>
 #include <Bitmap/Bullet.h>
-#include <Interface/Interface.h>
+// #include <Interface/Interface.h>
 #include <SchedulerARMAVR.h>
 // #include <DueOverclock.h>
 
-GameObject test(tank_left,tank_palette);
+GameObject Player;
 Bullet b;
+PSX psx;
 
 Draw t;
 
-Converter con;
+// Interface interface;
 
-Interface interface;
-
-Keyboard input(10,8);
 MapEditor Map;
 
 
 void setup() {
   Serial.begin(9600);
-  input.begin();
+  psx.begin();
   VGA.begin(320,240,VGA_COLOR);
   b.setSpeed(0.01f);
-  interface.post();
-  Map.drawMap_2d(MAP_GRID);
-  //interface.bootScreen();
+
+  // interface.post();
+
+  // interface.bootScreen();
+
   //Start the second thread
   Scheduler.startLoop(loop2);
 }
-int x=100,y=100;
-int x1=300;
+float x=100,y=100;
+
 void loop() {
   //Interface
-  //interface.begin();
+  // interface.begin();
 
   //Main Game
 
-  // if(!test.tileMapCollision(MAP2)){
-  //   y--;
-  // }
-  //
-  // test.setPosition(x,y);
-  // test.setFacingSide(DOWN);
-  // test.draw();
-  // test.update();
-  // // b.shoot(test);
-  // // b.worldDestroyer(MAP2);
-  //
-  // Map.drawMap_2d(MAP2);
-  //delay(10);
 
-  // VGA.waitSync();
+  Player.update();
+  Player.setPosition(x, y);
+  Player.draw();
+
+  // b.shoot(Player);
+  // b.worldDestroyer(MAP2);
+
+  Map.drawMap_2d(MAP2);
+  delay(5);
+  yield();
 }
+
 // switch (dirInput) {
 //   case UP: gameObject.setSprite(tankUp,tank_palette);break;
 //   // ...etc //TODO
@@ -59,6 +56,41 @@ void loop() {
 
 //Second thread for backgroung processing
 void loop2(){
+  tankMove();
+
+  //Used to pass task to other tasks
   yield();
-  delay(10);
+  delay(5);
+}
+
+
+void tankMove(){
+  if(!Player.tileMapCollision(MAP2)){
+    switch (psx.getInput()) {
+      case psxRight:
+        Player.setSprite(tank_right,tank_right_palette);
+        Player.setFacingSide(RIGHT);
+
+        x+=Player.getSpeed();
+        break;
+      case psxLeft:
+        Player.setSprite(tank_left,tank_left_palette);
+        Player.setFacingSide(LEFT);
+
+        x-=Player.getSpeed();
+        break;
+      case psxDown:
+        Player.setSprite(tank_down,tank_down_palette);
+        Player.setFacingSide(DOWN);
+
+        y+=Player.getSpeed();
+        break;
+      case psxUp:
+        Player.setSprite(tank_up,tank_up_palette);
+        Player.setFacingSide(UP);
+
+        y-=Player.getSpeed();
+        break;
+    }
+  }
 }

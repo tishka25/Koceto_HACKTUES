@@ -32,6 +32,7 @@ GameObject::GameObject(unsigned char *sprite,unsigned char *sprite_palette,int x
 // }
 
 void GameObject::update(){
+  Serial.println(getFrames());
   if(x_prev!=x){
     //Movement LEFT
     if(x<x_prev){VGA.fillRect(x_prev+getWidth(),y_prev,x_prev+getWidth(),y_prev+getHeight(),Map.getBackgroundColor());}
@@ -109,6 +110,12 @@ void GameObject::setType(int _type){
 void GameObject::setEnabled(bool enable){
   visible=enable;
 }
+void GameObject::setSpeed(float speed){
+  this->speed=speed;
+}
+float GameObject::getSpeed(){
+  return speed;
+}
 int GameObject::getWidth(){
   return sprite[SPRITE_WIDTH];
 }
@@ -125,8 +132,10 @@ bool GameObject::getEnabled(){
 int GameObject::getFacingSide(){
   return side;
 }
+int GameObject::getFrames(){
+  return bitmap.getFrameCount(sprite);
+}
 void GameObject::setFacingSide(int side){
-  //TODO rotation of the sprite
   this->side=side;
 }
 
