@@ -32,6 +32,12 @@ Map.drawGrid();
 float x=100,y=100;
 
 void loop() {
+Serial.println(Map.updateGrid(&cursor_x,&cursor_y));
+//Interface
+  // interface.begin();
+
+  //Main Game
+
 
   //Interface
   interface.begin();
