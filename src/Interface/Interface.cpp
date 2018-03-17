@@ -17,14 +17,15 @@
 Interface::Interface(){
 }
 void Interface::post(){
+  Interface::setBackground(0);
+
   VGA.drawText("Initializing SD card...",0,0,255);
   if(!SD.begin(SD_PIN)){
-    VGA.drawText("initialization failed!",0,10,255);
+    VGA.drawText("Initialization failed!",0,10,255);
   }
   else{
-    VGA.drawText("Didn't initialize SD Card",0,10,255);
+    VGA.drawText("Initialization done",0,10,255);
   }
-  Interface::setBackground(0);
   delay(1000);
 }
 void Interface::bootScreen(){
