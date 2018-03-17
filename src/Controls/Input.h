@@ -9,6 +9,7 @@
 #define PS_CONTROLLER 2
 
 class Input{
+public:
   int type;
   Keyboard keyboard;
   PSX psx;
