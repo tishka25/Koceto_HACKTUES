@@ -29,6 +29,17 @@ void setup() {
 float x=100,y=100;
 
 void loop() {
+
+  //Interface
+  // interface.begin();
+
+  //Main Game
+
+
+  //Interface
+//   interface.begin();
+  //map
+//   Map.updateGrid();
   Map.updateGrid(&cursor_x,&cursor_y);
 //Interface
   // interface.begin();
@@ -45,7 +56,7 @@ void loop() {
 
 //Second thread for backgroung processing
 void loop2(){
-  // tankMove();
+  tankMove();
 
   //Used to pass task to other tasks
   yield();
