@@ -7,6 +7,7 @@
 GameObject Player(tank_left,tank_left_palette);
 Bullet b;
 PSX psx;
+Input input(PS_CONTROLLER);
 
 Draw t;
 
@@ -14,32 +15,25 @@ Interface interface;
 
 MapEditor Map;
 
-int cursor_x=0;
-int cursor_y=0;
-void setup() {
 
+void setup() {
   Serial.begin(9600);
   psx.begin();
   VGA.begin(320,240,VGA_COLOR);
   Player.setSpeed(1);
   interface.post();
   interface.bootScreen();
-Map.drawGrid();
-
   //Start the second thread
   Scheduler.startLoop(loop2);
 }
 float x=100,y=100;
 
 void loop() {
-
-  //Interface
-  interface.begin();
-  Map.updateGrid();
-  Map.updateGrid(&cursor_x,&cursor_y);
+Map.updateGrid();
+//Interface
+  // interface.begin();
 
   //Main Game
-  
   Player.update();
   Player.setPosition(x, y);
   Player.draw();
@@ -51,11 +45,13 @@ void loop() {
 
 //Second thread for backgroung processing
 void loop2(){
-  tankMove();
+  // tankMove();
+
   //Used to pass task to other tasks
   yield();
   delay(5);
 }
+
 
 void tankMove(){
   int buff_y;
