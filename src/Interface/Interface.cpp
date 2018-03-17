@@ -36,7 +36,9 @@ void Interface::begin()
 {
   Interface::setBackground(BLUE);
   Interface::draw();
-  Interface::select();
+  while(backToMenu){
+    Interface::select();
+  }
 }
 void Interface::setBackground(int color){
   VGA.fillRect(0,0,WIDTH,HEIGHT,color);
@@ -58,29 +60,32 @@ void Interface::draw(){
 // }
 void Interface::move(int direction){
   menu_pos=menu_pos+direction;
-  switch(menu_pos){
-    case 1:
-      Interface::draw();
-      VGA.drawText("Games",INTRWIDTH,(HEIGHT/2)-50,YELLOW);
-      break;
-    case 2:
-      Interface::draw();
-      VGA.drawText("Map Editor",INTRWIDTH,HEIGHT/2,YELLOW);
-      break;
-    case 3:
-      Interface::draw();
-      VGA.drawText("About",INTRWIDTH,(HEIGHT/2)+50,YELLOW);
-      break;
-    default:
-      menu_pos=1;
-      break;
+  if(menu_pos_prev!=menu_pos){
+    switch(menu_pos){
+      case 1:
+        Interface::draw();
+        VGA.drawText("Games",INTRWIDTH,(HEIGHT/2)-50,YELLOW);
+        break;
+      case 2:
+        Interface::draw();
+        VGA.drawText("Map Editor",INTRWIDTH,HEIGHT/2,YELLOW);
+        break;
+      case 3:
+        Interface::draw();
+        VGA.drawText("About",INTRWIDTH,(HEIGHT/2)+50,YELLOW);
+        break;
+      default:
+        menu_pos=1;
+        break;
+    }
+    menu_pos_prev=menu_pos;
   }
 }
 void Interface::menuSelect(int item){
   switch(item){
-    case 1:break; //TODO Start game
-    case 2:break; //TODO Start Map Editor
-    case 3:Interface::menuAbout();break;
+    case 1:backToMenu=0;break; //TODO Start game
+    case 2:backToMenu=0;break; //TODO Start Map Editor
+    case 3:Interface::menuAbout();backToMenu=1;break;
     default:break;
   }
 }

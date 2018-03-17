@@ -26,6 +26,8 @@ void setup() {
   // interface.bootScreen();
 
   //Start the second thread
+  //Interface
+  interface.begin();
   Scheduler.startLoop(loop2);
 }
 float x=100,y=100;
