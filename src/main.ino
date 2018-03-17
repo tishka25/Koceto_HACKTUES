@@ -22,6 +22,7 @@ void setup() {
   Player.setSpeed(1);
   interface.post();
   interface.bootScreen();
+Map.drawGrid();
 
   //Start the second thread
   Scheduler.startLoop(loop2);
@@ -29,8 +30,14 @@ void setup() {
 float x=100,y=100;
 
 void loop() {
+<<<<<<< HEAD
   //Interface
   interface.begin();
+=======
+Map.updateGrid();
+//Interface
+  // interface.begin();
+>>>>>>> 8a7b0c42cda7cfcabebc9b0c2f62129a599dc541
 
   //Main Game
   Player.update();
@@ -44,7 +51,7 @@ void loop() {
 
 //Second thread for backgroung processing
 void loop2(){
-  tankMove();
+  // tankMove();
 
   //Used to pass task to other tasks
   yield();

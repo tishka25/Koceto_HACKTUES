@@ -2,6 +2,7 @@
 // #include <MapEditor/Sprites.h>
 #include <Bitmap/GameObject.h>
 // #include <Controls/Keyboard.h>
+#include <Psx.h>                                          // Includes the Psx Library
 
 #pragma once
 
@@ -25,14 +26,12 @@ class MapEditor{
     void update(int *x,int *y);
     void moveCursor();
     void selectPosition(int *x,int *y);
-
     void setBackgroundColor(int color);//TODO
     int getBackgroundColor();
-    void getSprites();
-    void drawSpriteSelector();
     void drawMap_1d(unsigned int _map[]);
     void drawMap_2d(unsigned int _map[][20]);
-
+    void drawGrid();
+    void updateGrid();
   private:
 };
 
