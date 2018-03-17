@@ -19,7 +19,7 @@ void setup() {
   Serial.begin(9600);
   psx.begin();
   VGA.begin(320,240,VGA_COLOR);
-
+  Player.setSpeed(1);
   // interface.post();
 
   // interface.bootScreen();
@@ -71,7 +71,7 @@ void tankMove(){
       case psxRight:
         buff_y=static_cast<int>((Player.getPositionY())/16);
         buff_x=static_cast<int>((Player.getPositionX()/16)+1);
-        if(!(MAP2[buff_y][buff_x]!=0)){
+        if(!(MAP2[buff_y+1][buff_x]!=0 || MAP2[buff_y][buff_x]!=0)){
           x+=Player.getSpeed();
           Player.setSprite(tank_right,tank_right_palette);
           Player.setFacingSide(RIGHT);
@@ -81,7 +81,7 @@ void tankMove(){
       case psxLeft:
         buff_y=static_cast<int>((Player.getPositionY())/16);
         buff_x=static_cast<int>(Player.getPositionX()/16);
-        if(!(MAP2[buff_y][buff_x]!=0)){
+        if(!(MAP2[buff_y+1][buff_x]!=0 || MAP2[buff_y][buff_x]!=0)){
           x-=Player.getSpeed();
           Player.setSprite(tank_left,tank_left_palette);
           Player.setFacingSide(LEFT);
@@ -91,7 +91,7 @@ void tankMove(){
       case psxDown:
         buff_y=static_cast<int>((Player.getPositionY()/16)+1);
         buff_x=static_cast<int>((Player.getPositionX()/16));
-        if(!(MAP2[buff_y][buff_x]!=0)){
+        if(!(MAP2[buff_y][buff_x+1]!=0 || MAP2[buff_y][buff_x]!=0)){
           y+=Player.getSpeed();
 
           Player.setSprite(tank_down,tank_down_palette);
@@ -101,7 +101,7 @@ void tankMove(){
       case psxUp:
         buff_y=static_cast<int>((Player.getPositionY()/16));
         buff_x=static_cast<int>(Player.getPositionX()/16);
-        if(!(MAP2[buff_y][buff_x-1]!=0 || MAP2[buff_y][buff_x]!=0)){
+        if(!(MAP2[buff_y][buff_x+1]!=0 || MAP2[buff_y][buff_x]!=0)){
           y-=Player.getSpeed();
           Player.setSprite(tank_up,tank_up_palette);
           Player.setFacingSide(UP);
