@@ -15,6 +15,8 @@ class Input{
   Input();
   Input(int type);
   void begin();
+  unsigned int getInput();
+  unsigned int fakeJoystick(char keyInput);
 };
 
 #endif

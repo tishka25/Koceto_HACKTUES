@@ -7,7 +7,7 @@
 #include <MapEditor/Sprites.h>
 #include <MapEditor/MapEditor.h>
 // #include <Controls/Keyboard.h>
-#include <SDCard/Converter.h>
+#include <SDcard/Converter.h>
 // #include <SDCard.h>
 
 #define LEFT  1
