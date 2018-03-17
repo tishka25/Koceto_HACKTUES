@@ -8,10 +8,10 @@
 #define MENU_UP 1
 #define MENU_DOWN -1
 
-#define MENU_KEY_UP 'w'
-#define MENU_KEY_DOWN 's'
-#define MENU_KEY_SELECT PS2_ENTER
-#define INPUT_METHOD input.input()
+#define MENU_KEY_UP psxLeft
+#define MENU_KEY_DOWN psxDown
+#define MENU_KEY_SELECT psxX
+// #define INPUT_METHOD psx.getinput()
 
 #define SD_PIN 1
 

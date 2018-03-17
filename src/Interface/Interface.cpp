@@ -1,18 +1,6 @@
 #include "Interface.h"
 
-#define INTRWIDTH (WIDTH/2)-25
-#define BLUE 10
-#define YELLOW 250
-#define WHITE 255
-#define MENU_UP 1
-#define MENU_DOWN -1
 
-#define MENU_KEY_UP 'w'
-#define MENU_KEY_DOWN 's'
-// #define MENU_KEY_SELECT PS2_ENTER
-// #define INPUT_METHOD input.input()
-
-#define SD_PIN 1
 
 Interface::Interface(){
 }
@@ -50,14 +38,14 @@ void Interface::draw(){
   VGA.drawText("Map Editor",INTRWIDTH,HEIGHT/2,WHITE);
   VGA.drawText("About",INTRWIDTH,(HEIGHT/2)+50,WHITE);
 }
-// void Interface::select(){
-//   switch(INPUT_METHOD){
-//     case MENU_KEY_UP:Interface::move(MENU_UP);break;
-//     case MENU_KEY_DOWN:Interface::move(MENU_DOWN);break;
-//     case MENU_KEY_SELECT:Interface::menuSelect(menu_pos);break;
-//     default: Interface::move(0);break;
-//   }
-// }
+void Interface::select(){
+  switch(INPUT_METHOD){
+    case MENU_KEY_UP:Interface::move(MENU_UP);break;
+    case MENU_KEY_DOWN:Interface::move(MENU_DOWN);break;
+    case MENU_KEY_SELECT:Interface::menuSelect(menu_pos);break;
+    default: Interface::move(0);break;
+  }
+}
 void Interface::move(int direction){
   menu_pos=menu_pos+direction;
   if(menu_pos_prev!=menu_pos){
@@ -89,10 +77,10 @@ void Interface::menuSelect(int item){
     default:break;
   }
 }
-// void Interface::menuAbout(){
-//   while(INPUT_METHOD!=MENU_KEY_SELECT){
-//     VGA.drawText("Hello,",0,0,255);
-//     VGA.drawText("We are the Fluffy bears team",0,10,255);
-//     VGA.drawText("This is our Arduino based project",0,20,255);
-//   }
-// }
+void Interface::menuAbout(){
+  while(INPUT_METHOD!=MENU_KEY_SELECT){
+    VGA.drawText("Hello,",0,0,255);
+    VGA.drawText("We are the Fluffy bears team",0,10,255);
+    VGA.drawText("This is our Arduino based project",0,20,255);
+  }
+}
