@@ -38,9 +38,9 @@ void MapEditor::begin(){
 int MapEditor::getBackgroundColor(){
 	return BACKGROUND_COLOR;
 }
-void MapEditor::getSprites(){
-
-}
+// void MapEditor::getSprites(){
+//
+// }
 
 // void MapEditor::drawSpriteSelector(){
 //   int _x=WIDTH/80;
@@ -72,12 +72,20 @@ void MapEditor::drawMap_1d(unsigned int _map[]){
 void MapEditor::drawMap_2d(unsigned int _map[][20]){
   for(int y=0;y<15;y++){
     for(int x=0;x<20;x++){
-      if(_map[y][x]==BRICKS_DESTRUCTIVE){
+      if(_map[y][x]==TILE_EMPTY){
         int width=16;
         int height=16;
-				GameObjects.setSprite(bricks_destructive,bricks_destructive_palette);
+				GameObjects.setSprite(empty_tile,empty_tile_palette);
         GameObjects.drawAtPosition(x*width,y*height);
       }
     }
   }
+}
+void MapEditor::drawGrid(){
+	int width=16;
+	for(int y=0;y<15;y++){
+		for(int x=0;x<20;x++){
+			vga.drawRect(x*16,y*16,x*16+width,y*16+width,0);
+		}
+	}
 }

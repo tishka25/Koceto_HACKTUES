@@ -28,8 +28,6 @@ class MapEditor{
 
     void setBackgroundColor(int color);//TODO
     int getBackgroundColor();
-    void getSprites();
-    void drawSpriteSelector();
     void drawMap_1d(unsigned int _map[]);
     void drawMap_2d(unsigned int _map[][20]);
 
