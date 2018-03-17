@@ -24,7 +24,7 @@ unsigned int Input::getInput(){
       break;
   }
 }
-unsigned int fakeJoystick(char keyInput){
+unsigned int Input::fakeJoystick(char keyInput){
   switch(keyInput){
     case 'a':return psxLeft;
     case 's':return psxDown;
@@ -40,6 +40,6 @@ unsigned int fakeJoystick(char keyInput){
     case 'e':return psxL1;
     case 'o':return psxR2;
     case 'q':return psxL2;
-
+    default:return 0;
   }
 }

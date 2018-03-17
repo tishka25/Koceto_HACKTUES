@@ -1,9 +1,9 @@
 #include "MapEditor.h"
-#include <Psx.h>                                          // Includes the Psx Library
+#include <Controls/Input.h>                                       // Includes the Psx Library
 GameObject *spriteSelector;
 GameObject GameObjects;
 
-
+Input input(PS_CONTROLLER);
 
 
 
@@ -91,25 +91,12 @@ void MapEditor::drawGrid(){
 	}
 }
 
-void MapEditor::drawGrid(){
-	int width=16;
-
-	for(int y=0;y<15;y++){
-		for(int x=0;x<20;x++){
-			VGA.drawRect(x*16,y*16,x*16+width,y*16+width,255);
-		}
-	}
-}
 
 void MapEditor::updateGrid(){
 	int x=1;
 	int y=1;
-	int data = Psx.read();                                      // Psx.read() initiates the PSX controller and returns
 	int width=16;
-                                                // the button data
-  Serial.println(data);                                   // Display the returned numeric value
-  if (data & psxR2){
+  Serial.println(input.getInput());                                              // the button data
 	//INPUT check
 	VGA.drawRect(x*16,y*16,x*16+width,y*16+width,224 );
-}
 }

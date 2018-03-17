@@ -20,7 +20,7 @@ void setup() {
   psx.begin();
   VGA.begin(320,240,VGA_COLOR);
   b.setSpeed(0.01f);
-
+Map.drawGrid();
   // interface.post();
 
   // interface.bootScreen();
@@ -31,7 +31,8 @@ void setup() {
 float x=100,y=100;
 
 void loop() {
-  //Interface
+Map.updateGrid();
+//Interface
   // interface.begin();
 
   //Main Game
@@ -56,7 +57,7 @@ void loop() {
 
 //Second thread for backgroung processing
 void loop2(){
-  tankMove();
+  // tankMove();
 
   //Used to pass task to other tasks
   yield();
@@ -64,33 +65,33 @@ void loop2(){
 }
 
 
-void tankMove(){
-  if(!Player.tileMapCollision(MAP2)){
-    switch (psx.getInput()) {
-      case psxRight:
-        Player.setSprite(tank_right,tank_right_palette);
-        Player.setFacingSide(RIGHT);
-
-        x+=Player.getSpeed();
-        break;
-      case psxLeft:
-        Player.setSprite(tank_left,tank_left_palette);
-        Player.setFacingSide(LEFT);
-
-        x-=Player.getSpeed();
-        break;
-      case psxDown:
-        Player.setSprite(tank_down,tank_down_palette);
-        Player.setFacingSide(DOWN);
-
-        y+=Player.getSpeed();
-        break;
-      case psxUp:
-        Player.setSprite(tank_up,tank_up_palette);
-        Player.setFacingSide(UP);
-
-        y-=Player.getSpeed();
-        break;
-    }
-  }
-}
+// void tankMove(){
+//   if(!Player.tileMapCollision(MAP2)){
+//     switch (psx.getInput()) {
+//       case psxRight:
+//         Player.setSprite(tank_right,tank_right_palette);
+//         Player.setFacingSide(RIGHT);
+//
+//         x+=Player.getSpeed();
+//         break;
+//       case psxLeft:
+//         Player.setSprite(tank_left,tank_left_palette);
+//         Player.setFacingSide(LEFT);
+//
+//         x-=Player.getSpeed();
+//         break;
+//       case psxDown:
+//         Player.setSprite(tank_down,tank_down_palette);
+//         Player.setFacingSide(DOWN);
+//
+//         y+=Player.getSpeed();
+//         break;
+//       case psxUp:
+//         Player.setSprite(tank_up,tank_up_palette);
+//         Player.setFacingSide(UP);
+//
+//         y-=Player.getSpeed();
+//         break;
+//     }
+//   }
+// }
