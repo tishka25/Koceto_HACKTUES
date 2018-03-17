@@ -17,6 +17,7 @@ void Input::begin(){
 unsigned int Input::getInput(){
   switch (type) {
     case KEYBOARD:
+    Serial.print(keyboard.input());
       return fakeJoystick(keyboard.input());
       break;
     case PS_CONTROLLER:
