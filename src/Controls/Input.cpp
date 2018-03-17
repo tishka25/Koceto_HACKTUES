@@ -7,7 +7,7 @@ Input::Input(int type){
 void Input::begin(){
   switch (type) {
     case KEYBOARD:
-      keyboard.begin();
+      // keyboard.begin();
       break;
     case PS_CONTROLLER:
       psx.begin();
@@ -17,8 +17,7 @@ void Input::begin(){
 unsigned int Input::getInput(){
   switch (type) {
     case KEYBOARD:
-    Serial.print(keyboard.input());
-      return fakeJoystick(keyboard.input());
+      // return fakeJoystick(keyboard.input());
       break;
     case PS_CONTROLLER:
       return psx.getInput();
@@ -31,8 +30,8 @@ unsigned int Input::fakeJoystick(char keyInput){
     case 's':return psxDown;
     case 'd':return psxRight;
     case 'w':return psxUp;
-    case PS2_ENTER:return psxStrt;
-    case PS2_TAB:return psxSlct;
+    // case PS2_ENTER:return psxStrt;
+    // case PS2_TAB:return psxSlct;
     case 'j':return psxSqu;
     case 'k':return psxX;
     case 'l':return psxO;

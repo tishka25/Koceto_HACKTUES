@@ -5,47 +5,46 @@
 // #include <DueOverclock.h>
 
 GameObject Player(tank_left,tank_left_palette);
-Bullet b;
+// Bullet b;
 PSX psx;
-
-Draw t;
+Input input(PS_CONTROLLER);
 
 Interface interface;
 
 MapEditor Map;
+int cursor_x;
+int cursor_y;
 
-int cursor_x=0;
-int cursor_y=0;
+
 void setup() {
-
   Serial.begin(9600);
   psx.begin();
   VGA.begin(320,240,VGA_COLOR);
   Player.setSpeed(1);
   interface.post();
   interface.bootScreen();
-Map.drawGrid();
-
   //Start the second thread
   Scheduler.startLoop(loop2);
 }
 float x=100,y=100;
 
 void loop() {
-Serial.println(Map.updateGrid(&cursor_x,&cursor_y));
-//Interface
+
+  //Interface
   // interface.begin();
 
   //Main Game
 
 
   //Interface
-  interface.begin();
-  Map.updateGrid();
+//   interface.begin();
+  //map
+//   Map.updateGrid();
   Map.updateGrid(&cursor_x,&cursor_y);
+//Interface
+  // interface.begin();
 
   //Main Game
-  
   Player.update();
   Player.setPosition(x, y);
   Player.draw();
@@ -58,10 +57,12 @@ Serial.println(Map.updateGrid(&cursor_x,&cursor_y));
 //Second thread for backgroung processing
 void loop2(){
   tankMove();
+
   //Used to pass task to other tasks
   yield();
   delay(5);
 }
+
 
 void tankMove(){
   int buff_y;
