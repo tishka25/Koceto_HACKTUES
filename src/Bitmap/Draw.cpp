@@ -7,6 +7,9 @@ int Draw::getHeight(unsigned char sprite[]){
 int Draw::getWidth(unsigned char sprite[]){
   return sprite[0];
 }
+int Draw::getFrameCount(unsigned char *sprite){
+  return sprite[2];
+}
 void Draw::drawSprite(unsigned char sprite[],unsigned char blend[],int current_frame,int o_left,int o_top){
 
   int w = sprite[0];

@@ -77,7 +77,7 @@ public:
   void setSprite(unsigned char _sprite[],unsigned char _sprite_palette[]);
   int getWidth();
   int getHeight();
-
+  int getFrames();
   int getFacingSide();
   void setFacingSide(int side);
 
