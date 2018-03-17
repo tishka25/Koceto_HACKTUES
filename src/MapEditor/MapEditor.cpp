@@ -2,6 +2,7 @@
 #include <Controls/Input.h>                                       // Includes the Psx Library
 GameObject spriteSelector;
 GameObject GameObjects;
+static int GridArray [15][20];
 
 
 Input input(PS_CONTROLLER);
@@ -91,7 +92,6 @@ void MapEditor::drawGrid(){
 	}
 }
 
-int GridArray [15][20];
 void MapEditor::updateGrid(int *xCursor,int *yCursor){
 
 int width=16;
