@@ -3,17 +3,8 @@
 
 Keyboard::Keyboard(){}
 
-Keyboard::Keyboard(int DataPin,int IRQpin){
-  this->DataPin=DataPin;
-  this->IRQpin=IRQpin;
-  // keyboard.begin(DataPin,IRQpin);
-}
 void Keyboard::begin(){
-  keyboard.begin(DataPin,IRQpin);
-}
-void Keyboard::setPins(int _DataPin, int _IRQpin){
-  DataPin=_DataPin;
-  IRQpin=_IRQpin;
+  keyboard.begin(SHIELD_DATAPIN,SHIELD_IRQ);
 }
 char Keyboard::input(){
   int count=0;
@@ -41,6 +32,7 @@ char Keyboard::input(){
 //   }
 //   return dir;
 // }
+
 bool Keyboard::key(int key){
   if(keyboard.read()==key){return true;}
   else {return false;}
