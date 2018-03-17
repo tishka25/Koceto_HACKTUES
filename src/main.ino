@@ -1,6 +1,6 @@
 #include <Bitmap/GameObject.h>
 #include <Bitmap/Bullet.h>
-// #include <Interface/Interface.h>
+#include <Interface/Interface.h>
 #include <SchedulerARMAVR.h>
 // #include <DueOverclock.h>
 
@@ -10,7 +10,7 @@ PSX psx;
 
 Draw t;
 
-// Interface interface;
+Interface interface;
 
 MapEditor Map;
 
@@ -20,9 +20,8 @@ void setup() {
   psx.begin();
   VGA.begin(320,240,VGA_COLOR);
   Player.setSpeed(1);
-  // interface.post();
-
-  // interface.bootScreen();
+  interface.post();
+  interface.bootScreen();
 
   //Start the second thread
   Scheduler.startLoop(loop2);
@@ -31,27 +30,17 @@ float x=100,y=100;
 
 void loop() {
   //Interface
-  // interface.begin();
+  interface.begin();
 
   //Main Game
-
-
   Player.update();
   Player.setPosition(x, y);
   Player.draw();
-
-  // b.shoot(Player);
-  // b.worldDestroyer(MAP2);
 
   Map.drawMap_2d(MAP2);
   delay(5);
   yield();
 }
-
-// switch (dirInput) {
-//   case UP: gameObject.setSprite(tankUp,tank_palette);break;
-//   // ...etc //TODO
-// }
 
 //Second thread for backgroung processing
 void loop2(){
@@ -77,7 +66,6 @@ void tankMove(){
           Player.setFacingSide(RIGHT);
         }
         break;
-
       case psxLeft:
         buff_y=static_cast<int>((Player.getPositionY())/16);
         buff_x=static_cast<int>(Player.getPositionX()/16);
