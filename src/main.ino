@@ -33,18 +33,6 @@ float x=100,y=100;
 void loop() {
   //Map
   // Map.updateGrid(&cursor_x,&cursor_y);
-  
-  //Interface
-  // interface.begin();
-
-  //Main Game
-
-
-  //Interface
-//   interface.begin();
-  //map
-//   Map.updateGrid();
-  Map.updateGrid(&cursor_x,&cursor_y);
 //Interface
   // interface.begin();
 
@@ -54,8 +42,8 @@ void loop() {
   Player.draw();
 
   Map.drawMap_2d(MAP2);
-  delay(5);
   yield();
+  delay(5);
 }
 
 //Second thread for backgroung processing
@@ -65,6 +53,7 @@ void loop2(){
   yield();
   delay(5);
 }
+
 
 
 void tankMove(){
