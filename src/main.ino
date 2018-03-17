@@ -32,7 +32,7 @@ Map.drawGrid();
 float x=100,y=100;
 
 void loop() {
-Map.updateGrid(&cursor_x,&cursor_y);
+Serial.println(Map.updateGrid(&cursor_x,&cursor_y));
 //Interface
   // interface.begin();
 
@@ -69,7 +69,7 @@ void loop2(){
 void tankMove(){
   int buff_y;
   int buff_x;
-  
+
     switch (psx.getInput()) {
       case psxRight:
         buff_y=static_cast<int>((Player.getPositionY())/16);

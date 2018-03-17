@@ -86,13 +86,12 @@ void MapEditor::drawGrid(){
 	int width=16;
 	for(int y=0;y<15;y++){
 		for(int x=0;x<20;x++){
-			Serial.println(y);
 			VGA.drawRect(x*16,y*16,x*16+width,y*16+width,255);
 		}
 	}
 }
 
-void MapEditor::updateGrid(int *xCursor,int *yCursor){
+int MapEditor::updateGrid(int *xCursor,int *yCursor){
 
 int width=16;
 
@@ -142,8 +141,8 @@ if(input.getInput()==psxDown){
 	 GridArray[(*yCursor)][(*xCursor)]=1;
  }
 	delay(120);
-if(input.getInput()==psxStrt){
-
+if(input.getInput()==psxSlct){
+	return GridArray[20][15];
 }
 
 }
