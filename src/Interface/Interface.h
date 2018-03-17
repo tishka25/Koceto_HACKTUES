@@ -33,4 +33,4 @@ class Interface{
     void menuAbout();
   };
 
-extern Keyboard input;
+// extern Keyboard input;
