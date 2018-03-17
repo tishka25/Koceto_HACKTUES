@@ -35,5 +35,6 @@ class MapEditor{
     int updateGrid(int *xCursor,int *yCursor);
   private:
 };
+extern Input input;
 
 #endif

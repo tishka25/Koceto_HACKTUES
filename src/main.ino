@@ -31,11 +31,9 @@ void setup() {
 float x=100,y=100;
 
 void loop() {
-<<<<<<< HEAD
   //Map
   // Map.updateGrid(&cursor_x,&cursor_y);
-=======
-
+  
   //Interface
   // interface.begin();
 
@@ -47,7 +45,6 @@ void loop() {
   //map
 //   Map.updateGrid();
   Map.updateGrid(&cursor_x,&cursor_y);
->>>>>>> 8b96f362729ef35d0e9fe870070f8b057a0221fa
 //Interface
   // interface.begin();
 
@@ -64,10 +61,6 @@ void loop() {
 //Second thread for backgroung processing
 void loop2(){
   tankMove();
-<<<<<<< HEAD
-=======
-
->>>>>>> 8b96f362729ef35d0e9fe870070f8b057a0221fa
   //Used to pass task to other tasks
   yield();
   delay(5);

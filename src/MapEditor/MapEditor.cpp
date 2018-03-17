@@ -1,10 +1,10 @@
 #include "MapEditor.h"
+
 GameObject spriteSelector;
 GameObject GameObjects;
 static int GridArray [15][20];
 
 
-Input input(PS_CONTROLLER);
 
 
 MapEditor::MapEditor(){}
@@ -89,10 +89,7 @@ void MapEditor::drawGrid(){
 		}
 	}
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> 8b96f362729ef35d0e9fe870070f8b057a0221fa
 int MapEditor::updateGrid(int *xCursor,int *yCursor){
 
 int width=16;
@@ -143,10 +140,6 @@ if(input.getInput()==psxDown){
 	 GridArray[(*yCursor)][(*xCursor)]=1;
  }
 	delay(120);
-if(input.getInput()==psxSlct){
-	return GridArray[20][15];
-}
-
 if(input.getInput()==psxSlct){
 	return GridArray[20][15];
 }
