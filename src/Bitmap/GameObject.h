@@ -31,8 +31,10 @@
 
 #define BUFFER 20
 
-#define SPAWN_POSITION  enemy_x=SPAWN_POSITION;enemy_y=SPAWN_POSITION;
-
+#define SPAWN_POSITION  33
+#define SPAWN_POSITION1  enemy_x=33;enemy_y=33;
+#define SPAWN_POSITION2  enemy_x=33;enemy_y=220;
+#define SPAWN_POSITION3  enemy_x=270;enemy_y=220;
 
 class GameObject{
 public:
