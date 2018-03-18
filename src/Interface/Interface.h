@@ -22,6 +22,7 @@ class Interface{
   public:
     Interface();
     int menu_pos=1;
+    bool playGame=0;
     int menu_pos_prev=0;
     int post();
     void bootScreen();

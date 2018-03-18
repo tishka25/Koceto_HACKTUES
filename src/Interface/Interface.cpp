@@ -29,7 +29,7 @@ void Interface::begin()
 
   Interface::setBackground(BLUE);
   Interface::draw();
-  while(1){
+  while(!playGame){
     Interface::select();
   }
 }
@@ -79,7 +79,7 @@ void Interface::move(int direction){
 void Interface::menuSelect(int item){
   VGA.clear();
   switch(item){
-    case 1:return loop(); //TODO Start game
+    case 1:playGame=1;break; //TODO Start game
     case 2:Interface::playMusic("elsys.wav");Interface::begin(); //TODO Start Map Editor
     case 3:Interface::menuAbout();Interface::begin();
     default:Interface::begin();
@@ -104,7 +104,6 @@ void Interface::playMusic(char *songName){
       Serial.println("error opening test.wav");
       return Interface::begin();
     }
-
     const int S = 1024;
     short buffer[S];
     Serial.print("Playing");
