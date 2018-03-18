@@ -7,8 +7,8 @@
 #define WHITE 255
 #define RED 224
 
-#define MENU_UP 1
-#define MENU_DOWN -1
+#define MENU_UP -1
+#define MENU_DOWN 1
 
 #define MENU_KEY_UP psxUp
 #define MENU_KEY_DOWN psxDown

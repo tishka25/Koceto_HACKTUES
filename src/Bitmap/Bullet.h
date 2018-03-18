@@ -9,7 +9,7 @@ class Bullet:GameObject
 {
 public:
   GameObject gameObject;
-  float speed=5;
+  float speed=1;
   int color=255;
   int x16,y16;
   Bullet();
@@ -30,6 +30,7 @@ public:
 
   void shoot(GameObject gameObject);
   void loop(GameObject gameObject);
+  void destroy();
 
 };
 

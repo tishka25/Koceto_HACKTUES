@@ -1,7 +1,7 @@
 #include "Bullet.h"
 #include <Arduino.h>
 
-extern float bullet_x,bullet_y;
+extern int bullet_x,bullet_y;
 
 
 Bullet::Bullet(){
@@ -38,24 +38,47 @@ bool Bullet::tileMapCollision(unsigned int Map[][20]){
 
     return (Map[y16][x16]!=0);
 }
-void Bullet::loop(GameObject gameObject){
-  if(enable || !tileMapCollision(MAP2)){
-    int _side=gameObject.getFacingSide();
-      switch (_side) {
-        case LEFT :
-          drawAtPosition(bullet_x,bullet_y);bullet_x-=getSpeed();update();
-          break;
-        case RIGHT:
-          drawAtPosition(bullet_x,bullet_y);bullet_x+=getSpeed();update();
-          break;
-        case UP:
-          drawAtPosition(bullet_x,bullet_y);bullet_y-=getSpeed();update();
-          break;
-        case DOWN:
-          drawAtPosition(bullet_x,bullet_y);bullet_y+=getSpeed();update();
-          break;
-    }
-  }
+// void Bullet::loop(GameObject gameObject){
+//   int buff_y;
+//   int buff_x;
+//   if(enable){
+//     Serial.println("SHOOT");
+//     int _side=gameObject.getFacingSide();
+//       switch (_side) {
+//         case LEFT :
+//         buff_y=static_cast<int>((getPositionY())/16);
+//         buff_x=static_cast<int>(getPositionX()/16);
+//         if(!(MAP2[buff_y+1][buff_x]==0 || MAP2[buff_y][buff_x]==0)){
+//           drawAtPosition(bullet_x,bullet_y);bullet_x-=getSpeed();update();
+//         }
+//           break;
+//         case RIGHT:
+//         buff_y=static_cast<int>((getPositionY())/16);
+//         buff_x=static_cast<int>((getPositionX()/16)+1);
+//         if(!(MAP2[buff_y+1][buff_x]==0 || MAP2[buff_y][buff_x]==0)){
+//           drawAtPosition(bullet_x,bullet_y);bullet_x+=getSpeed();update();
+//         }
+//           break;
+//         case UP:
+//         buff_y=static_cast<int>((getPositionY()/16));
+//         buff_x=static_cast<int>(getPositionX()/16);
+//         if(!(MAP2[buff_y][buff_x+1]==0 || MAP2[buff_y][buff_x]==0)){
+//           drawAtPosition(bullet_x,bullet_y);bullet_y-=getSpeed();update();
+//         }
+//           break;
+//         case DOWN:
+//         buff_y=static_cast<int>((getPositionY()/16)+1);
+//         buff_x=static_cast<int>((getPositionX()/16));
+//         if(!(MAP2[buff_y][buff_x+1]==0 || MAP2[buff_y][buff_x]==0)){
+//           drawAtPosition(bullet_x,bullet_y);bullet_y+=getSpeed();update();
+//         }
+//           break;
+//     }
+//   }
+//
+// }
+void Bullet::destroy(){
+
 }
 
 void Bullet::shoot(GameObject gameObject){
@@ -64,31 +87,25 @@ void Bullet::shoot(GameObject gameObject){
       enable=true;
   }
 
-
-// void Bullet::shoot(GameObject gameObject){
-//   int _side=gameObject.getFacingSide();
-//   int width=1;
-//   switch (_side) {
-//     case LEFT :
-//       bullet_x=gameObject.getPositionX()-2;
-//       bullet_y=(gameObject.getPositionY())+(gameObject.getHeight()/2-1);
-//       drawAtPosition(bullet_x,bullet_y);bullet_x-=getSpeed();update();
-//         break;
-//     case RIGHT:
-//       bullet_x=gameObject.getPositionX()+gameObject.getWidth();
-//       bullet_y=(gameObject.getPositionY())+(gameObject.getHeight()/2-1);
-//         drawAtPosition(bullet_x,bullet_y);bullet_x+=getSpeed();update();
-//         break;
-//     case UP:
-//       bullet_x=gameObject.getPositionX()+gameObject.getWidth()/2;
-//       bullet_y=gameObject.getPositionY()-2;
-//         drawAtPosition(bullet_x,bullet_y);bullet_y-=getSpeed();update();
-//         break;
-//     case DOWN:
-//       bullet_x=gameObject.getPositionX()+gameObject.getWidth()/2;
-//       bullet_y=gameObject.getPositionY()+gameObject.getHeight();
-//       drawAtPosition(bullet_x,bullet_y);bullet_y+=getSpeed();update();
-//         break;
-//   }
-//
-// }
+void Bullet::loop(GameObject gameObject){
+  if(enable){
+  int _side=gameObject.getFacingSide();
+  switch (_side) {
+    case LEFT :
+      while (!MAP2[bullet_y/16][bullet_x/16]) {
+        drawAtPosition(bullet_x,bullet_y);bullet_x-=getSpeed();update();delayMicroseconds(800);}
+        if(MAP2[bullet_y/16][bullet_x/16]==BRICKS_DESTRUCTIVE){MAP2[bullet_y/16][bullet_x/16]=0;}
+        break;
+    case RIGHT:
+      while (!MAP2[bullet_y/16][bullet_x/16]) {drawAtPosition(bullet_x,bullet_y);bullet_x+=getSpeed();update();delayMicroseconds(800);}
+        break;
+    case UP:
+        while (!MAP2[bullet_y/16][bullet_x/16]) {drawAtPosition(bullet_x,bullet_y);bullet_y-=getSpeed();update();delayMicroseconds(800);}
+        break;
+    case DOWN:
+        while (!MAP2[bullet_y/16][bullet_x/16]) {drawAtPosition(bullet_x,bullet_y);bullet_y+=getSpeed();update();delayMicroseconds(800);}
+        break;
+  }
+  enable=false;
+}
+}

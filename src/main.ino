@@ -4,15 +4,16 @@
 #include <SchedulerARMAVR.h>
 
 GameObject Player(tank_left,tank_left_palette);
+Bullet bull;
 
-Bullet b;
 Input input(PS_CONTROLLER);
 
 Interface interface;
 
 MapEditor Map;
 int cursor_x,cursor_y;
-float bullet_x,bullet_y;
+int bullet_x=0;
+int bullet_y=0;
 
 float x=100,y=100;
 
@@ -21,9 +22,6 @@ void setup() {
   input.begin();
   VGA.begin(320,240,VGA_COLOR);
   Player.setSpeed(1);
-
-  b.setShooter(Player);
-
   //Interface
   interface.post();
   interface.bootScreen();
@@ -34,7 +32,7 @@ void setup() {
 
   //Start the second thread
   Scheduler.startLoop(loop2);
-  Scheduler.startLoop(loop3);
+
 }
 
 
@@ -46,10 +44,11 @@ void loop() {
   Player.update();
   Player.setPosition(x, y);
   Player.draw();
+  tankMove();
+
   if(input.getInput()==psxX){
-    b.shoot(Player);
+    bull.shoot(Player);
   }
-  // tankShoot();
 
   Map.drawMap_2d(MAP2);
   delay(1);
@@ -57,16 +56,11 @@ void loop() {
 
 //Second thread for backgroung processing
 void loop2(){
-  tankMove();
+  bull.loop(Player);
   //Used to pass task to other tasks
   delay(1);
   yield();
 
-}
-
-void loop3(){
-  b.loop(Player);
-  yield();
 }
 
 void tankMove(){
@@ -96,7 +90,6 @@ void tankMove(){
         buff_x=static_cast<int>((Player.getPositionX()/16));
         if(!(MAP2[buff_y][buff_x+1]!=0 || MAP2[buff_y][buff_x]!=0)){
           y+=Player.getSpeed();
-
           Player.setSprite(tank_down,tank_down_palette);
           Player.setFacingSide(DOWN);
         }
