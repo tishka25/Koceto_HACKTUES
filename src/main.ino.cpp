@@ -1,4 +1,4 @@
-# 1 "/var/folders/t1/87z234gj5sqgsq5zhpbkfvlr0000gn/T/tmplZdAqH"
+# 1 "/var/folders/t1/87z234gj5sqgsq5zhpbkfvlr0000gn/T/tmpsKXotU"
 #include <Arduino.h>
 # 1 "/Users/teodorstanishev/Documents/PlatformIO/Projects/HackTues30X/src/main.ino"
 #include <Bitmap/GameObject.h>
@@ -18,17 +18,22 @@ int bullet_x=0;
 int bullet_y=0;
 
 float player_x=100,player_y=100;
+float enemy_x=100,enemy_y=160;
+
+
+long t;
 void setup();
 void loop();
 void loop2();
 void gameObjectMove();
 void tankMove();
-#line 20 "/Users/teodorstanishev/Documents/PlatformIO/Projects/HackTues30X/src/main.ino"
+#line 23 "/Users/teodorstanishev/Documents/PlatformIO/Projects/HackTues30X/src/main.ino"
 void setup() {
   Serial.begin(9600);
   input.begin();
   VGA.begin(320,240,VGA_COLOR);
-
+  Enemy.setType(ENEMY);
+  Player.setType(PLAYER);
 
   interface.post();
   interface.bootScreen();
@@ -44,17 +49,24 @@ void setup() {
 
 
 void loop() {
+  t=millis();
 
 
 
 
-  gameObjectMove();
 
   if(input.getInput()==psxX){
     bull.shoot(Player);
   }
 
   Map.drawMap_2d(MAP2);
+  gameObjectMove();
+
+  if(millis()-t>=10000){
+    VGA.clear();
+    t=millis();
+  }
+
   delay(1);
 }
 
@@ -74,13 +86,14 @@ void gameObjectMove(){
   Player.draw();
   tankMove();
   Enemy.update();
-  Enemy.setPosition(100, 150);
+  Enemy.setPosition(enemy_x, enemy_y);
   Enemy.draw();
 }
 
 void tankMove(){
   int buff_y;
   int buff_x;
+
     switch (input.getInput()) {
       case psxRight:
         buff_y=static_cast<int>((Player.getPositionY())/16);

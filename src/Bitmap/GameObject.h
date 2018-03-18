@@ -19,8 +19,8 @@
 #define X 0
 #define Y 1
 
-#define PLAYER 1
-#define ENEMY 2
+#define PLAYER 2
+#define ENEMY 3
 #define PLATFORM 3
 #define DESTRUCTABLE 4
 #define DESTROYER 5

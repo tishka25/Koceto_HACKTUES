@@ -27,7 +27,7 @@ public:
 
   GameObject getShooter();
   void setShooter(GameObject gameObject);
-
+  bool collision();
   bool tileMapCollision(unsigned int Map[][20]);
 
   void worldDestroyer(unsigned int Map[][20]);

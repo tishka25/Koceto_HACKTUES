@@ -92,6 +92,10 @@ void GameObject::setRespawnOutOfScreen(bool enable){
 void GameObject::setPosition(float x, float y){
   this->x=x;
   this->y=y;
+  int buff_x=static_cast<int>(x)/16;
+  int buff_y=static_cast<int>(y)/16;
+  MAP2[buff_y][buff_x]=getType();
+
 }
 bool GameObject::getRespawnOutOfScreen(){
   return enable;
