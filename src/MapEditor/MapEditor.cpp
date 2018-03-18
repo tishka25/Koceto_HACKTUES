@@ -1,8 +1,8 @@
 #include "MapEditor.h"
 
 GameObject spriteSelector;
-GameObject GameObjects;
-static int GridArray [15][20];
+GameObject gameObjects;
+static int gridArray [15][20];
 
 
 
@@ -58,28 +58,28 @@ void MapEditor::drawMap_1d(unsigned int _map[]){
 	int _y=0;
 	int _x=0;
 	for(int _pos=2;_pos<=(_width*_height)+2;_pos++){
-			if(_map[_pos]==BRICKS_DESTRUCTIVE){
-				if((_pos-2)%(_width)==0&&(_pos-2)!=0)_y++;
-				_x=(_pos-2)-_y*_width;
-				GameObjects.setSprite(bricks_destructive,bricks_destructive_palette);
-				GameObjects.setPosition(_x*16,_y*16);
-				GameObjects.draw();
-				// GameObjects.drawAtPosition(_x*16-2,_y*16-2);
+		if(_map[_pos]==BRICKS_DESTRUCTIVE){
+			if((_pos-2)%(_width)==0&&(_pos-2)!=0)_y++;
+			_x=(_pos-2)-_y*_width;
+			gameObjects.setSprite(bricks_destructive,bricks_destructive_palette);
+			gameObjects.setPosition(_x*16,_y*16);
+			gameObjects.draw();
+			// gameObjects.drawAtPosition(_x*16-2,_y*16-2);
 		}
 	}
 }
 // template <size_t rows, size_t cols>
-void MapEditor::drawMap_2d(unsigned int _map[][20]){
-  for(int y=0;y<15;y++){
-    for(int x=0;x<20;x++){
-      if(_map[y][x]==TILE_EMPTY){
-        int width=16;
-        int height=16;
-				GameObjects.setSprite(empty_tile,empty_tile_palette);
-        GameObjects.drawAtPosition(x*width,y*height);
-      }
-    }
-  }
+void MapEditor::drawMap_2d(unsigned int *_map){
+	for(int y=0;y<15;y++){
+		for(int x=0;x<20;x++){
+			if(*(_map + (y * 20) + x)==BRICKS_DESTRUCTIVE){
+				int width=16;
+				int height=16;
+				gameObjects.setSprite(bricks_destructive,bricks_destructive_palette);
+				gameObjects.drawAtPosition(x*width,y*height);
+			}
+		}
+	}
 }
 void MapEditor::drawGrid(){
 	int width=16;
@@ -92,61 +92,63 @@ void MapEditor::drawGrid(){
 
 int* MapEditor::updateGrid(int *xCursor,int *yCursor){
 
-int width=16;
+	int width=16;
 
-if(input.getInput()==psxUp){
+	if(input.getInput()==psxUp){
 		VGA.drawRect((*xCursor)*16,(*yCursor)*16,(*xCursor)*16+width,(*yCursor)*16+width,255 );
 
 		(*yCursor)--;
 		if((*yCursor)<=0){
-				(*yCursor)=15;
+			(*yCursor)=15;
 		}
 		VGA.drawRect((*xCursor)*16,(*yCursor)*16,(*xCursor)*16+width,(*yCursor)*16+width,224 );
-}
-if(input.getInput()==psxLeft){
+	}
+	if(input.getInput()==psxLeft){
 		VGA.drawRect((*xCursor)*16,(*yCursor)*16,(*xCursor)*16+width,(*yCursor)*16+width,255 );
 
 		(*xCursor)--;
 		if((*xCursor)<=0){
-				(*xCursor)=20;
+			(*xCursor)=20;
 		}
 		VGA.drawRect((*xCursor)*16,(*yCursor)*16,(*xCursor)*16+width,(*yCursor)*16+width,224 );
 
-}
+	}
 
-if(input.getInput()==psxRight){
+	if(input.getInput()==psxRight){
 		VGA.drawRect((*xCursor)*16,(*yCursor)*16,(*xCursor)*16+width,(*yCursor)*16+width,255 );
 
 		(*xCursor)++;
 		if((*xCursor)>=20){
-				(*xCursor)=0;
+			(*xCursor)=0;
 		}
 		VGA.drawRect((*xCursor)*16,(*yCursor)*16,(*xCursor)*16+width,(*yCursor)*16+width,224 );
 
-	 }
-if(input.getInput()==psxDown){
+	}
+	if(input.getInput()==psxDown){
 		VGA.drawRect((*xCursor)*16,(*yCursor)*16,(*xCursor)*16+width,(*yCursor)*16+width,255 );
 
 		(*yCursor)++;
 		if((*yCursor)>=15){
-				(*yCursor)=0;
+			(*yCursor)=0;
 		}
 		VGA.drawRect((*xCursor)*16,(*yCursor)*16,(*xCursor)*16+width,(*yCursor)*16+width,224 );
 	}
 	if(input.getInput()==psxSqu){
-	spriteSelector.setSprite(bricks_destructive,bricks_destructive_palette);
-	 spriteSelector.drawAtPosition((*xCursor)*16,(*yCursor)*16);
-	 spriteSelector.update();
-	 GridArray[(*yCursor)][(*xCursor)]=1;
-	 Serial.println(GridArray[(*yCursor)][(*xCursor)]);
- }
+		spriteSelector.setSprite(bricks_destructive,bricks_destructive_palette);
+		spriteSelector.drawAtPosition((*xCursor)*16,(*yCursor)*16);
+		spriteSelector.update();
+		gridArray[(*yCursor)][(*xCursor)]=1;
+		Serial.println(gridArray[(*yCursor)][(*xCursor)]);
+	}
 	delay(120);
-if(input.getInput()==psxSlct){
-	Serial.println(GridArray[5][5]);
-	return (int*)GridArray;
+	if(input.getInput()==psxSlct){
+		Serial.println(gridArray[5][5]);
+		VGA.clear();
+		return (int*)gridArray;
+	} else {
+		return 0;
+	}
 }
 
-}
-
-                                        // the button data
-	//INPUT check}
+// the button data
+//INPUT check}

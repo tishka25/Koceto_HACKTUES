@@ -30,7 +30,7 @@ class MapEditor{
     void setBackgroundColor(int color);//TODO
     int getBackgroundColor();
     void drawMap_1d(unsigned int _map[]);
-    void drawMap_2d(unsigned int _map[][20]);
+    void drawMap_2d(unsigned int *_map);
     void drawGrid();
     int* updateGrid(int *xCursor,int *yCursor);
   private:

@@ -8,13 +8,13 @@ GameObject Player(tank_left,tank_left_palette);
 // Bullet b;
 PSX psx;
 Input input(PS_CONTROLLER);
-
+int drawEnable=true;
 Interface interface;
 
 MapEditor Map;
 int cursor_x;
 int cursor_y;
-
+int *arr_start = 0;
 
 void setup() {
   Serial.begin(9600);
@@ -29,31 +29,47 @@ void setup() {
 
 }
 float x=100,y=100;
-
+GameObject gameObjects_;
 void loop() {
   //Map
   // Map.updateGrid(&cursor_x,&cursor_y);
-  
+
   //Interface
   // interface.begin();
 
-  //Main Game
 
+  //Main Game
+  if(drawEnable){
+    Map.drawGrid();
+    drawEnable=false;
+  }
+  if (arr_start == 0) {
+    Serial.println("check + ");
+    arr_start=Map.updateGrid(&cursor_x,&cursor_y);
+    char buf[] = "?";
+    buf[0] = (arr_start == 0) ? '0' : '1';
+    Serial.println(buf);
+}else{
+  Map.drawMap_2d((int*)arr_start);
+  // for (int i = 0; i < 16; i++) {
+    // gameObjects_.setSprite(bricks_destructive,bricks_destructive_palette);
+    // gameObjects_.drawAtPosition(0,0);
+  // }
+}
 
   //Interface
 //   interface.begin();
   //map
 //   Map.updateGrid();
-  Map.updateGrid(&cursor_x,&cursor_y);
+
 //Interface
   // interface.begin();
 
   //Main Game
-  Player.update();
-  Player.setPosition(x, y);
-  Player.draw();
+//  Player.update();
+//  Player.setPosition(x, y);
+//  Player.draw();
 
-  Map.drawMap_2d(MAP2);
   delay(5);
   yield();
 }
