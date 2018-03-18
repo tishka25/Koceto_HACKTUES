@@ -1,6 +1,10 @@
 #include "Bullet.h"
 #include <Arduino.h>
 
+
+extern GameObject Player;
+extern GameObject Enemy;
+extern GameObject bull;
 extern int bullet_x,bullet_y;
 
 
@@ -38,56 +42,24 @@ bool Bullet::tileMapCollision(unsigned int Map[][20]){
 
     return (Map[y16][x16]!=0);
 }
-// void Bullet::loop(GameObject gameObject){
-//   int buff_y;
-//   int buff_x;
-//   if(enable){
-//     Serial.println("SHOOT");
-//     int _side=gameObject.getFacingSide();
-//       switch (_side) {
-//         case LEFT :
-//         buff_y=static_cast<int>((getPositionY())/16);
-//         buff_x=static_cast<int>(getPositionX()/16);
-//         if(!(MAP2[buff_y+1][buff_x]==0 || MAP2[buff_y][buff_x]==0)){
-//           drawAtPosition(bullet_x,bullet_y);bullet_x-=getSpeed();update();
-//         }
-//           break;
-//         case RIGHT:
-//         buff_y=static_cast<int>((getPositionY())/16);
-//         buff_x=static_cast<int>((getPositionX()/16)+1);
-//         if(!(MAP2[buff_y+1][buff_x]==0 || MAP2[buff_y][buff_x]==0)){
-//           drawAtPosition(bullet_x,bullet_y);bullet_x+=getSpeed();update();
-//         }
-//           break;
-//         case UP:
-//         buff_y=static_cast<int>((getPositionY()/16));
-//         buff_x=static_cast<int>(getPositionX()/16);
-//         if(!(MAP2[buff_y][buff_x+1]==0 || MAP2[buff_y][buff_x]==0)){
-//           drawAtPosition(bullet_x,bullet_y);bullet_y-=getSpeed();update();
-//         }
-//           break;
-//         case DOWN:
-//         buff_y=static_cast<int>((getPositionY()/16)+1);
-//         buff_x=static_cast<int>((getPositionX()/16));
-//         if(!(MAP2[buff_y][buff_x+1]==0 || MAP2[buff_y][buff_x]==0)){
-//           drawAtPosition(bullet_x,bullet_y);bullet_y+=getSpeed();update();
-//         }
-//           break;
-//     }
-//   }
-//
-// }
+
+long Bullet::getReloadTime(){
+  return reloadTime;
+}
+void Bullet::setReloadTime(long reloadTime){
+  this->reloadTime=reloadTime;
+}
 void Bullet::destroy(){
 
 }
 
 void Bullet::shoot(GameObject gameObject){
-  long t=millis();
-  if(millis()-t>=reloadTime){
+  // long t=millis();
+  // if(millis()-t>=reloadTime){
       bullet_x=gameObject.getPositionX()+(gameObject.getWidth()/2);
       bullet_y=(gameObject.getPositionY())+(gameObject.getHeight()/2);
       enable=true;
-}
+    // }
   }
 
 void Bullet::loop(GameObject gameObject){
@@ -96,7 +68,11 @@ void Bullet::loop(GameObject gameObject){
   switch (_side) {
     case LEFT :
       while (!MAP2[bullet_y/16][bullet_x/16]) {
-        drawAtPosition(bullet_x,bullet_y);bullet_x-=getSpeed();update();delayMicroseconds(800);}
+        drawAtPosition(bullet_x,bullet_y);bullet_x-=getSpeed();update();delayMicroseconds(800);
+          if(collision(bull,Enemy)){
+            Serial.println("KILLED");
+          }
+        }
         break;
     case RIGHT:
       while (!MAP2[bullet_y/16][bullet_x/16]) {drawAtPosition(bullet_x,bullet_y);bullet_x+=getSpeed();update();delayMicroseconds(800);}

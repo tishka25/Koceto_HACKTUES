@@ -22,6 +22,9 @@ public:
   float getSpeed();
   void setSpeed(float speed);
 
+  long getReloadTime();
+  void setReloadTime(long reloadTime);
+
   GameObject getShooter();
   void setShooter(GameObject gameObject);
 
