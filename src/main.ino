@@ -14,13 +14,17 @@ int cursor_x,cursor_y;
 int bullet_x=0;
 int bullet_y=0;
 
-float player_x=100,player_y=100;
-float enemy_x=100,enemy_y=160;
+float player_x=280,player_y=SPAWN_POSITION;
+float enemy_x=SPAWN_POSITION,enemy_y=SPAWN_POSITION;
+
+int AIdir=1;
 
 
 long t;
+long enemyShootTime;
 
 void setup() {
+  randomSeed(analogRead(A0));
   Serial.begin(9600);
   input.begin();
   VGA.begin(320,240,VGA_COLOR);
@@ -38,10 +42,9 @@ void setup() {
   Scheduler.startLoop(loop2);
 
 }
-
+bool first=1;
 
 void loop() {
-  t=millis();
   //Map
   // Map.updateGrid(&cursor_x,&cursor_y);
 
@@ -54,9 +57,12 @@ void loop() {
   Map.drawMap_2d(MAP2);
   gameObjectMove();
 
-  if(millis()-t>=10000){
-    VGA.clear();
+
+  if(millis()-t>=2000 || first==1){
+    // VGA.clear();
+    AIdir=random(1,5);
     t=millis();
+    first=0;
   }
 
   delay(1);
@@ -65,6 +71,7 @@ void loop() {
 //Second thread for backgroung processing
 void loop2(){
   bull.loop(Player);
+  bull.loop(Enemy);
   //Used to pass task to other tasks
   delay(1);
   yield();
@@ -80,6 +87,7 @@ void gameObjectMove(){
   Enemy.update();
   Enemy.setPosition(enemy_x, enemy_y);
   Enemy.draw();
+  enemyMove();
 }
 
 void tankMove(){
@@ -125,3 +133,60 @@ void tankMove(){
         break;
     }
 }
+
+
+void enemyMove(){
+  int buff_y;
+  int buff_x;
+
+    switch (AIdir) {
+      case RIGHT:
+        buff_y=static_cast<int>((Enemy.getPositionY())/16);
+        buff_x=static_cast<int>((Enemy.getPositionX()/16)+1);
+        if(!(MAP2[buff_y+1][buff_x]!=0 || MAP2[buff_y][buff_x]!=0)){
+          enemy_x+=Enemy.getSpeed();
+          Enemy.setSprite(tank_right,tank_right_palette);
+          Enemy.setFacingSide(RIGHT);
+        }
+        else{
+          AIdir=random(1,5);
+        }
+        break;
+      case LEFT:
+        buff_y=static_cast<int>((Enemy.getPositionY())/16);
+        buff_x=static_cast<int>(Enemy.getPositionX()/16);
+        if(!(MAP2[buff_y+1][buff_x]!=0 || MAP2[buff_y][buff_x]!=0)){
+          enemy_x-=Enemy.getSpeed();
+          Enemy.setSprite(tank_left,tank_left_palette);
+          Enemy.setFacingSide(LEFT);
+      }
+      else{
+        AIdir=random(1,5);
+      }
+        break;
+      case DOWN:
+        buff_y=static_cast<int>((Enemy.getPositionY()/16)+1);
+        buff_x=static_cast<int>((Enemy.getPositionX()/16));
+        if(!(MAP2[buff_y][buff_x+1]!=0 || MAP2[buff_y][buff_x]!=0)){
+          enemy_y+=Enemy.getSpeed();
+          Enemy.setSprite(tank_down,tank_down_palette);
+          Enemy.setFacingSide(DOWN);
+        }
+        else{
+          AIdir=random(1,5);
+        }
+        break;
+      case UP:
+        buff_y=static_cast<int>((Enemy.getPositionY()/16));
+        buff_x=static_cast<int>(Enemy.getPositionX()/16);
+        if(!(MAP2[buff_y][buff_x+1]!=0 || MAP2[buff_y][buff_x]!=0)){
+          enemy_y-=Enemy.getSpeed();
+          Enemy.setSprite(tank_up,tank_up_palette);
+          Enemy.setFacingSide(UP);
+        }
+        else{
+          AIdir=random(1,5);
+        }
+        break;
+    }
+  }
