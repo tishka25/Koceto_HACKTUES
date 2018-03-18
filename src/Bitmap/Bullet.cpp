@@ -82,9 +82,12 @@ void Bullet::destroy(){
 }
 
 void Bullet::shoot(GameObject gameObject){
+  long t=millis();
+  if(millis()-t>=reloadTime){
       bullet_x=gameObject.getPositionX()+(gameObject.getWidth()/2);
       bullet_y=(gameObject.getPositionY())+(gameObject.getHeight()/2);
       enable=true;
+}
   }
 
 void Bullet::loop(GameObject gameObject){
@@ -94,7 +97,6 @@ void Bullet::loop(GameObject gameObject){
     case LEFT :
       while (!MAP2[bullet_y/16][bullet_x/16]) {
         drawAtPosition(bullet_x,bullet_y);bullet_x-=getSpeed();update();delayMicroseconds(800);}
-        if(MAP2[bullet_y/16][bullet_x/16]==BRICKS_DESTRUCTIVE){MAP2[bullet_y/16][bullet_x/16]=0;}
         break;
     case RIGHT:
       while (!MAP2[bullet_y/16][bullet_x/16]) {drawAtPosition(bullet_x,bullet_y);bullet_x+=getSpeed();update();delayMicroseconds(800);}

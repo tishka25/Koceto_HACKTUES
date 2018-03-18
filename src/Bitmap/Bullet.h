@@ -11,6 +11,7 @@ public:
   GameObject gameObject;
   float speed=1;
   int color=255;
+  long reloadTime=500; //in ms
   int x16,y16;
   Bullet();
   Bullet(GameObject gameObject);

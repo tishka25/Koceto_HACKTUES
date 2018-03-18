@@ -4,6 +4,7 @@
 #include <SchedulerARMAVR.h>
 
 GameObject Player(tank_left,tank_left_palette);
+GameObject Pl
 Bullet bull;
 
 Input input(PS_CONTROLLER);
