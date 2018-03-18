@@ -8,6 +8,13 @@
 #define KEYBOARD      1
 #define PS_CONTROLLER 2
 
+
+
+#define LEFT  1
+#define RIGHT 2
+#define UP    3
+#define DOWN  4
+
 class Input{
 public:
   int type=2;

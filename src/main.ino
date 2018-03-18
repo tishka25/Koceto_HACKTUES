@@ -17,10 +17,13 @@ int bullet_y=0;
 float player_x=100,player_y=100;
 float enemy_x=100,enemy_y=160;
 
+int AIdir=0;
+
 
 long t;
 
 void setup() {
+  randomSeed(analogRead(A0));
   Serial.begin(9600);
   input.begin();
   VGA.begin(320,240,VGA_COLOR);
@@ -54,10 +57,12 @@ void loop() {
   Map.drawMap_2d(MAP2);
   gameObjectMove();
 
-  if(millis()-t>=10000){
-    VGA.clear();
-    t=millis();
-  }
+
+  // if(millis()-t>=1000){
+    // VGA.clear();
+    AIdir=random(1,4);
+    // t=millis();
+  // }
 
   delay(1);
 }
@@ -80,6 +85,7 @@ void gameObjectMove(){
   Enemy.update();
   Enemy.setPosition(enemy_x, enemy_y);
   Enemy.draw();
+  enemyMove();
 }
 
 void tankMove(){
@@ -121,6 +127,51 @@ void tankMove(){
           player_y-=Player.getSpeed();
           Player.setSprite(tank_up,tank_up_palette);
           Player.setFacingSide(UP);
+        }
+        break;
+    }
+}
+
+
+void enemyMove(){
+  int buff_y;
+  int buff_x;
+
+    switch (AIdir) {
+      case RIGHT:
+        buff_y=static_cast<int>((Enemy.getPositionY())/16);
+        buff_x=static_cast<int>((Enemy.getPositionX()/16)+1);
+        if(!(MAP2[buff_y+1][buff_x]!=0 || MAP2[buff_y][buff_x]!=0)){
+          enemy_x+=Enemy.getSpeed();
+          Enemy.setSprite(tank_right,tank_right_palette);
+          Enemy.setFacingSide(RIGHT);
+        }
+        break;
+      case LEFT:
+        buff_y=static_cast<int>((Enemy.getPositionY())/16);
+        buff_x=static_cast<int>(Enemy.getPositionX()/16);
+        if(!(MAP2[buff_y+1][buff_x]!=0 || MAP2[buff_y][buff_x]!=0)){
+          enemy_x-=Enemy.getSpeed();
+          Enemy.setSprite(tank_left,tank_left_palette);
+          Enemy.setFacingSide(LEFT);
+      }
+        break;
+      case DOWN:
+        buff_y=static_cast<int>((Enemy.getPositionY()/16)+1);
+        buff_x=static_cast<int>((Enemy.getPositionX()/16));
+        if(!(MAP2[buff_y][buff_x+1]!=0 || MAP2[buff_y][buff_x]!=0)){
+          enemy_y+=Enemy.getSpeed();
+          Enemy.setSprite(tank_down,tank_down_palette);
+          Enemy.setFacingSide(DOWN);
+        }
+        break;
+      case UP:
+        buff_y=static_cast<int>((Enemy.getPositionY()/16));
+        buff_x=static_cast<int>(Enemy.getPositionX()/16);
+        if(!(MAP2[buff_y][buff_x+1]!=0 || MAP2[buff_y][buff_x]!=0)){
+          enemy_y-=Enemy.getSpeed();
+          Enemy.setSprite(tank_up,tank_up_palette);
+          Enemy.setFacingSide(UP);
         }
         break;
     }

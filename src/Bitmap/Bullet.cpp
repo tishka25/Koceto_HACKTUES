@@ -65,9 +65,12 @@ bool Bullet::collision(){
 }
 
 void Bullet::shoot(GameObject gameObject){
+  // long t =millis();
+  // if(millis()-t>=100)
       bullet_x=gameObject.getPositionX()+(gameObject.getWidth()/2);
       bullet_y=(gameObject.getPositionY())+(gameObject.getHeight()/2);
       enable=true;
+      // t=millis();
   }
 
 void Bullet::loop(GameObject gameObject){
