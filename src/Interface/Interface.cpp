@@ -19,15 +19,15 @@ void Interface::post(){
 }
 void Interface::bootScreen(){
   // VGA.drawImage(); TODO Put Elsys logo here
-  delay(1000);
-  VGA.clear();
 
+  delay(1000);
 }
 void Interface::begin()
 {
+
   Interface::setBackground(BLUE);
   Interface::draw();
-  while(backToMenu){
+  while(1){
     Interface::select();
   }
 }
@@ -48,11 +48,13 @@ void Interface::select(){
     case MENU_KEY_SELECT:Interface::menuSelect(menu_pos);break;
     default: Interface::move(0);break;
   }
-  delay(100);
+  delay(200);
 }
 void Interface::move(int direction){
   menu_pos=menu_pos+direction;
   if(menu_pos_prev!=menu_pos){
+    if(menu_pos>3)menu_pos=3;
+    if(menu_pos<1)menu_pos=1;
     switch(menu_pos){
       case 1:
         Interface::draw();
@@ -67,24 +69,28 @@ void Interface::move(int direction){
         VGA.drawText("About",INTRWIDTH,(HEIGHT/2)+50,RED);
         break;
       default:
-        menu_pos=1;
         break;
     }
     menu_pos_prev=menu_pos;
   }
 }
 void Interface::menuSelect(int item){
+  VGA.clear();
   switch(item){
-    case 1:backToMenu=0;break; //TODO Start game
-    case 2:backToMenu=0;break; //TODO Start Map Editor
-    case 3:Interface::menuAbout();backToMenu=1;break;
-    default:break;
+    case 1:;Interface::begin(); //TODO Start game
+    case 2:Interface::begin(); //TODO Start Map Editor
+    case 3:Interface::menuAbout();Interface::begin();
+    default:Interface::begin();
   }
 }
 void Interface::menuAbout(){
+  // VGA.clear();
+  delay(200);
   while(input.getInput()!=MENU_KEY_SELECT){
     VGA.drawText("Hello,",0,0,255);
     VGA.drawText("We are the Fluffy bears team",0,10,255);
     VGA.drawText("This is our Arduino based project",0,20,255);
   }
+  delay(200);
+  return Interface::begin();
 }

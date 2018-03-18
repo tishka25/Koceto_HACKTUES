@@ -22,7 +22,6 @@ class Interface{
     Interface();
     int menu_pos=1;
     int menu_pos_prev=0;
-    bool backToMenu=1;
     void post();
     void bootScreen();
     void begin();
