@@ -1,5 +1,6 @@
 #include <MapEditor/MapEditor.h>
 #include <SDcard/SDcard.h>
+#include <Audio.h>
 
 #define INTRWIDTH (WIDTH/2)-25
 #define BLUE 10
@@ -22,7 +23,7 @@ class Interface{
     Interface();
     int menu_pos=1;
     int menu_pos_prev=0;
-    void post();
+    int post();
     void bootScreen();
     void begin();
     void setBackground(int color);
@@ -31,6 +32,7 @@ class Interface{
     void move(int direction);
     void menuSelect(int item);
     void menuAbout();
+    void playMusic(char *songName);
   };
 
  extern Input input;

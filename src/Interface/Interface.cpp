@@ -4,15 +4,17 @@
 
 Interface::Interface(){
 }
-void Interface::post(){
+int Interface::post(){
   Interface::setBackground(0);
 
   VGA.drawText("Initializing SD card...",0,0,255);
   if(!SD.begin(SD_PIN)){
     VGA.drawText("Initialization failed!",0,10,255);
+    return 0;
   }
   else{
     VGA.drawText("Initialization done",0,10,255);
+    return 1;
   }
   delay(1000);
   VGA.clear();
@@ -58,11 +60,11 @@ void Interface::move(int direction){
     switch(menu_pos){
       case 1:
         Interface::draw();
-        VGA.drawText("Games",INTRWIDTH,(HEIGHT/2)-50,RED);
+        VGA.drawText("Game",INTRWIDTH,(HEIGHT/2)-50,RED);
         break;
       case 2:
         Interface::draw();
-        VGA.drawText("Map Editor",INTRWIDTH,HEIGHT/2,RED);
+        VGA.drawText("Elsys30",INTRWIDTH,HEIGHT/2,RED);
         break;
       case 3:
         Interface::draw();
@@ -78,7 +80,7 @@ void Interface::menuSelect(int item){
   VGA.clear();
   switch(item){
     case 1:;Interface::begin(); //TODO Start game
-    case 2:Interface::begin(); //TODO Start Map Editor
+    case 2:Interface::playMusic("elsys.wav");Interface::begin(); //TODO Start Map Editor
     case 3:Interface::menuAbout();Interface::begin();
     default:Interface::begin();
   }
@@ -94,3 +96,24 @@ void Interface::menuAbout(){
   delay(200);
   return Interface::begin();
 }
+void Interface::playMusic(char *songName){
+  if(Interface::post()){
+    Audio.begin(88200, 100);
+    File myFile = SD.open(songName);
+    if (!myFile) {
+      Serial.println("error opening test.wav");
+      return Interface::begin();
+    }
+
+    const int S = 1024;
+    short buffer[S];
+    Serial.print("Playing");
+    while (myFile.available()) {
+      myFile.read(buffer, sizeof(buffer));
+      int volume = 1024;
+      Audio.prepare(buffer, S, volume);
+      Audio.write(buffer, S);
+    }
+    myFile.close();
+    }
+  }
