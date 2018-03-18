@@ -5,8 +5,6 @@ GameObject GameObjects;
 static int GridArray [15][20];
 
 
-
-
 MapEditor::MapEditor(){}
 
 void MapEditor::begin(){
@@ -72,10 +70,10 @@ void MapEditor::drawMap_1d(unsigned int _map[]){
 void MapEditor::drawMap_2d(unsigned int _map[][20]){
   for(int y=0;y<15;y++){
     for(int x=0;x<20;x++){
-      if(_map[y][x]==TILE_EMPTY){
+      if(_map[y][x]==BRICKS_DESTRUCTIVE){
         int width=16;
         int height=16;
-				GameObjects.setSprite(empty_tile,empty_tile_palette);
+				GameObjects.setSprite(bricks_destructive,bricks_destructive_palette);
         GameObjects.drawAtPosition(x*width,y*height);
       }
     }
@@ -147,6 +145,3 @@ if(input.getInput()==psxSlct){
 }
 
 }
-
-                                        // the button data
-	//INPUT check}

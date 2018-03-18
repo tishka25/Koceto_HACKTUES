@@ -19,8 +19,8 @@
 #define X 0
 #define Y 1
 
-#define PLAYER 1
-#define ENEMY 2
+#define PLAYER 2
+#define ENEMY 3
 #define PLATFORM 3
 #define DESTRUCTABLE 4
 #define DESTROYER 5
@@ -43,7 +43,7 @@ public:
    float x_prev,y_prev;
    float speed=1;
    int gravity;
-   bool enable=true;
+   bool enable=false;
    bool visible=false;
 
   GameObject();
@@ -90,7 +90,6 @@ public:
 
 };
 extern GameObject *physics;
-extern PSX psx;
 extern MapEditor Map;
 
 

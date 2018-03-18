@@ -1,3 +1,6 @@
+# 1 "/var/folders/t1/87z234gj5sqgsq5zhpbkfvlr0000gn/T/tmpsKXotU"
+#include <Arduino.h>
+# 1 "/Users/teodorstanishev/Documents/PlatformIO/Projects/HackTues30X/src/main.ino"
 #include <Bitmap/GameObject.h>
 #include <Bitmap/Bullet.h>
 #include <Interface/Interface.h>
@@ -19,22 +22,27 @@ float enemy_x=100,enemy_y=160;
 
 
 long t;
-
+void setup();
+void loop();
+void loop2();
+void gameObjectMove();
+void tankMove();
+#line 23 "/Users/teodorstanishev/Documents/PlatformIO/Projects/HackTues30X/src/main.ino"
 void setup() {
   Serial.begin(9600);
   input.begin();
   VGA.begin(320,240,VGA_COLOR);
   Enemy.setType(ENEMY);
   Player.setType(PLAYER);
-  //Interface
+
   interface.post();
   interface.bootScreen();
 
-  //Interface
+
     interface.begin();
     VGA.clear();
 
-  //Start the second thread
+
   Scheduler.startLoop(loop2);
 
 }
@@ -42,10 +50,10 @@ void setup() {
 
 void loop() {
   t=millis();
-  //Map
-  // Map.updateGrid(&cursor_x,&cursor_y);
 
-  //Main Game
+
+
+
 
   if(input.getInput()==psxX){
     bull.shoot(Player);
@@ -62,10 +70,10 @@ void loop() {
   delay(1);
 }
 
-//Second thread for backgroung processing
+
 void loop2(){
   bull.loop(Player);
-  //Used to pass task to other tasks
+
   delay(1);
   yield();
 
