@@ -39,8 +39,8 @@ void Interface::setBackground(int color){
 }
 void Interface::draw(){
   VGA.setInk(255);
-  VGA.drawText("Games",INTRWIDTH,(HEIGHT/2)-50,WHITE);
-  VGA.drawText("Map Editor",INTRWIDTH,HEIGHT/2,WHITE);
+  VGA.drawText("Game",INTRWIDTH,(HEIGHT/2)-50,WHITE);
+  VGA.drawText("Elsys30",INTRWIDTH,HEIGHT/2,WHITE);
   VGA.drawText("About",INTRWIDTH,(HEIGHT/2)+50,WHITE);
 }
 void Interface::select(){
@@ -79,7 +79,7 @@ void Interface::move(int direction){
 void Interface::menuSelect(int item){
   VGA.clear();
   switch(item){
-    case 1:;Interface::begin(); //TODO Start game
+    case 1:return loop(); //TODO Start game
     case 2:Interface::playMusic("elsys.wav");Interface::begin(); //TODO Start Map Editor
     case 3:Interface::menuAbout();Interface::begin();
     default:Interface::begin();
