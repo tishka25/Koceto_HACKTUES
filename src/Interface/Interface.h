@@ -1,5 +1,5 @@
 #include <MapEditor/MapEditor.h>
-#include <SDcard/SDcard.h>
+#include <SD.h>
 #include <Audio.h>
 
 #define INTRWIDTH (WIDTH/2)-25

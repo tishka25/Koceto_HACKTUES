@@ -83,25 +83,25 @@ void Bullet::loop(GameObject gameObject){
       while (!(MAP2[bullet_y/16][bullet_x/16])
          && !collision()) {drawAtPosition(bullet_x,bullet_y);bullet_x-=getSpeed();update();delayMicroseconds(800);}
          if(collision()){Enemy.setSprite(bullet,bullet_palette);VGA.fillRect(enemy_x,enemy_y,enemy_x+16,enemy_y+16,Map.getBackgroundColor());
-           enemy_x=SPAWN_POSITION;enemy_y=SPAWN_POSITION;Enemy.draw();}
+          SPAWN_POSITION3  Enemy.draw();}
         break;
     case RIGHT:
       while (!(MAP2[bullet_y/16][bullet_x/16])
         && !collision()) {drawAtPosition(bullet_x,bullet_y);bullet_x+=getSpeed();update();delayMicroseconds(800);}
         if(collision()){Enemy.setSprite(bullet,bullet_palette);VGA.fillRect(enemy_x,enemy_y,enemy_x+16,enemy_y+16,Map.getBackgroundColor());
-        enemy_x=SPAWN_POSITION;enemy_y=SPAWN_POSITION;Enemy.draw();}
+          SPAWN_POSITION2  Enemy.draw();}
         break;
     case UP:
         while (!(MAP2[bullet_y/16][bullet_x/16])
           && !collision()) {drawAtPosition(bullet_x,bullet_y);bullet_y-=getSpeed();update();delayMicroseconds(800);}
           if(collision()){Enemy.setSprite(bullet,bullet_palette);VGA.fillRect(enemy_x,enemy_y,enemy_x+16,enemy_y+16,Map.getBackgroundColor());
-          enemy_x=SPAWN_POSITION;enemy_y=SPAWN_POSITION;Enemy.draw();}
+          SPAWN_POSITION3  Enemy.draw();}
         break;
     case DOWN:
         while (!(MAP2[bullet_y/16][bullet_x/16])
           && !collision()) {drawAtPosition(bullet_x,bullet_y);bullet_y+=getSpeed();update();delayMicroseconds(800);}
           if(collision()){Enemy.setSprite(bullet,bullet_palette);VGA.fillRect(enemy_x,enemy_y,enemy_x+16,enemy_y+16,Map.getBackgroundColor());
-          enemy_x=SPAWN_POSITION;enemy_y=SPAWN_POSITION;Enemy.draw();}
+            SPAWN_POSITION1 Enemy.draw();}
         break;
   }
   enable=false;

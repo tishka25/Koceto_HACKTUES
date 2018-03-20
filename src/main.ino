@@ -6,7 +6,8 @@
 GameObject Player(tank_left,tank_left_palette);
 GameObject Enemy(tank_left,tank_left_palette);
 Bullet bull;
-Input input(PS_CONTROLLER);
+Input input(KEYBOARD);
+
 Interface interface;
 MapEditor Map;
 
@@ -18,10 +19,11 @@ float player_x=280,player_y=SPAWN_POSITION;
 float enemy_x=SPAWN_POSITION,enemy_y=SPAWN_POSITION;
 
 int AIdir=1;
+int PlayerDir=2;
 
 
 long t;
-long enemyShootTime;
+long shootTime;
 
 void setup() {
   randomSeed(analogRead(A0));
@@ -35,7 +37,7 @@ void setup() {
   interface.bootScreen();
 
   //Interface
-    interface.begin();
+    // interface.begin();
     VGA.clear();
 
   //Start the second thread
@@ -61,7 +63,13 @@ void loop() {
   if(millis()-t>=2000 || first==1){
     // VGA.clear();
     AIdir=random(1,5);
+    PlayerDir=random(1,5);
+
     t=millis();
+    first=0;
+  }
+  if(millis()-shootTime>=10000 || first){
+    bull.shoot(Player);
     first=0;
   }
 
@@ -94,8 +102,10 @@ void tankMove(){
   int buff_y;
   int buff_x;
 
-    switch (input.getInput()) {
-      case psxRight:
+    switch (PlayerDir) {
+    // switch (input.getInput()) {
+      // case psxRight:
+        case RIGHT:
         buff_y=static_cast<int>((Player.getPositionY())/16);
         buff_x=static_cast<int>((Player.getPositionX()/16)+1);
         if(!(MAP2[buff_y+1][buff_x]!=0 || MAP2[buff_y][buff_x]!=0)){
@@ -103,8 +113,12 @@ void tankMove(){
           Player.setSprite(tank_right,tank_right_palette);
           Player.setFacingSide(RIGHT);
         }
+        else{
+          PlayerDir=random(1,5);
+        }
         break;
-      case psxLeft:
+      // case psxLeft:
+        case LEFT:
         buff_y=static_cast<int>((Player.getPositionY())/16);
         buff_x=static_cast<int>(Player.getPositionX()/16);
         if(!(MAP2[buff_y+1][buff_x]!=0 || MAP2[buff_y][buff_x]!=0)){
@@ -112,8 +126,12 @@ void tankMove(){
           Player.setSprite(tank_left,tank_left_palette);
           Player.setFacingSide(LEFT);
       }
+      else{
+        PlayerDir=random(1,5);
+      }
         break;
-      case psxDown:
+      // case psxDown:
+        case DOWN:
         buff_y=static_cast<int>((Player.getPositionY()/16)+1);
         buff_x=static_cast<int>((Player.getPositionX()/16));
         if(!(MAP2[buff_y][buff_x+1]!=0 || MAP2[buff_y][buff_x]!=0)){
@@ -121,14 +139,21 @@ void tankMove(){
           Player.setSprite(tank_down,tank_down_palette);
           Player.setFacingSide(DOWN);
         }
+        else{
+          PlayerDir=random(1,5);
+        }
         break;
-      case psxUp:
+      // case psxUp:
+        case UP:
         buff_y=static_cast<int>((Player.getPositionY()/16));
         buff_x=static_cast<int>(Player.getPositionX()/16);
         if(!(MAP2[buff_y][buff_x+1]!=0 || MAP2[buff_y][buff_x]!=0)){
           player_y-=Player.getSpeed();
           Player.setSprite(tank_up,tank_up_palette);
           Player.setFacingSide(UP);
+        }
+        else{
+          PlayerDir=random(1,5);
         }
         break;
     }

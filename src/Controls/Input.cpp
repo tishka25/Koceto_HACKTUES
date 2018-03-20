@@ -17,7 +17,7 @@ void Input::begin(){
 unsigned int Input::getInput(){
   switch (type) {
     case KEYBOARD:
-      // return fakeJoystick(keyboard.input());
+      return fakeJoystick(keyboard.input());
       break;
     case PS_CONTROLLER:
       return psx.getInput();
