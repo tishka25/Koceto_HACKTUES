@@ -1,7 +1,9 @@
-#include <Bitmap/GameObject.h>
-#include <Bitmap/Bullet.h>
-#include <Interface/Interface.h>
-#include <SchedulerARMAVR.h>
+// #include <Bitmap/GameObject.h>
+// #include <Bitmap/Bullet.h>
+// #include <Interface/Interface.h>
+// #include <SchedulerARMAVR.h>
+
+#include "GameEngine.h"
 
 GameObject Player(tank_left,tank_left_palette);
 GameObject Enemy(tank_left,tank_left_palette);
