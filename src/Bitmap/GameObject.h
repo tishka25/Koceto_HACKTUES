@@ -49,6 +49,7 @@ public:
    int gravity;
    bool enable=false;
    bool visible=false;
+   int dir=0;
 
   GameObject();
   GameObject(unsigned char *sprite,unsigned char *sprite_palette);
@@ -59,8 +60,6 @@ public:
   void draw();
   void drawAtPosition(int x , int y);
   void drawImage(unsigned char *sprite);
-
-  // void draw(unsigned char *sprite,unsigned char *sprite_palette);
 
   void update();
   void outOfScreen();
@@ -85,12 +84,17 @@ public:
   int getFacingSide();
   void setFacingSide(int side);
 
+  int getDirection();
+  void setDirection(int dir);
+
+  void move(int dir, float speed);
+
 // private:
   void gravitationalPull(GameObject _object1,GameObject _object2);
   static bool collision(GameObject _object1,GameObject _object2);
 
-
   bool tileMapCollision(unsigned int Map[][20]);
+  // bool tileMapCollision();
 
 };
 extern GameObject *physics;

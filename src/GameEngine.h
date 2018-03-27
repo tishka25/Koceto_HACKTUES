@@ -8,6 +8,6 @@
 #include <Controls/PSX.h>
 #include <MapEditor/Sprites.h>
 #include <MapEditor/MapEditor.h>
-// #include <Controls/Keyboard.h>
+// #include <Controls/Input.h>
 // #include <SDcard/Converter.h>
 // #include <SDCard.h>

@@ -12,7 +12,7 @@ class SDcard{
   public:
     int sdPin;
     SDcard(int sdPin);
-    File sprite;
+    File file;
     char *file1;
     void removeFile(char *fileName);
     void writeToFile(char *fileName ,char *array);

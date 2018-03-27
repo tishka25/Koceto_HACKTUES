@@ -1,13 +1,6 @@
 #include "GameObject.h"
 
 
-extern GameObject OnScreen[];
-extern MapEditor Map;
-int curr_object1=0;
-int curr_object2=0;
-
-
-
 GameObject::GameObject(){}
 GameObject::GameObject(unsigned char *sprite,unsigned char *sprite_palette){
   this->sprite=sprite;
@@ -20,33 +13,12 @@ GameObject::GameObject(unsigned char *sprite,unsigned char *sprite_palette,int x
   this->y=y;
 }
 
-// void GameObject::internalLoop(GameObject *_OnScreen){
-// }
-//
-// //TODO
-// void GameObject::internalLoop(){
-//   if(collision(OnScreen[curr_object1],OnScreen[curr_object2]) &&
-//      OnScreen[curr_object1].getType()==DESTROYER){
-//
-//      }
-// }
+
 
 void GameObject::update(){
-    if(x_prev!=x){
-      //Movement LEFT
-      if(x<x_prev){VGA.fillRect(x_prev+getWidth(),y_prev,x_prev+getWidth()+getSpeed(),y_prev+getHeight(),Map.getBackgroundColor());}
-      //Movement RIGHT
-      else {VGA.fillRect(x_prev,y_prev,x_prev-getSpeed(),y_prev+getHeight(),Map.getBackgroundColor());}
-  }
-  else if(y_prev!=y){
-      //Movement UP
-      if(y<y_prev){VGA.fillRect(x_prev,y_prev+getHeight(),x_prev+getWidth(),y_prev+getHeight()+getSpeed(),Map.getBackgroundColor());}
-      //Mevement DOWN
-      else {VGA.fillRect(x_prev,y_prev,x_prev+getWidth(),y_prev-getSpeed(),Map.getBackgroundColor());}
-  }
-  //If it is enabled it gets respawned to the other side
   outOfScreen();
-  x_prev=getPositionX(); y_prev=getPositionY();
+  VGA.drawRect(x-1,y-1,x+getWidth()+1,y+getHeight()+1,Map.getBackgroundColor());
+  draw();
 }
 
 void GameObject::outOfScreen(){
@@ -67,6 +39,35 @@ void GameObject::outOfScreen(){
   // else {
   //   //TODO
   // }
+}
+
+void GameObject::move(int dir, float speed){
+  // speed/=100;
+  int buff_x,buff_y;
+  switch (dir) {
+    case RIGHT:
+    buff_y=static_cast<int>((getPositionY())/16);
+    buff_x=static_cast<int>((getPositionX()/16)+1);
+    if(!(MAP2[buff_y+1][buff_x]!=0 || MAP2[buff_y][buff_x]!=0)){
+      x+=speed;}break;
+    case LEFT:
+    buff_y=static_cast<int>((getPositionY())/16);
+    buff_x=static_cast<int>(getPositionX()/16);
+    if(!(MAP2[buff_y+1][buff_x]!=0 || MAP2[buff_y][buff_x]!=0)){
+      x-=speed;}break;
+    case UP:
+    buff_y=static_cast<int>((getPositionY()/16));
+    buff_x=static_cast<int>(getPositionX()/16);
+    if(!(MAP2[buff_y][buff_x+1]!=0 || MAP2[buff_y][buff_x]!=0)){
+      y-=speed;}break;
+    case DOWN:
+    buff_y=static_cast<int>((getPositionY()/16)+1);
+    buff_x=static_cast<int>((getPositionX()/16));
+    if(!(MAP2[buff_y][buff_x+1]!=0 || MAP2[buff_y][buff_x]!=0)){
+      y+=speed;}break;
+    default: ;break;
+  }
+  update();
 }
 
 void GameObject::drawImage(unsigned char *sprite){
@@ -92,9 +93,6 @@ void GameObject::setRespawnOutOfScreen(bool enable){
 void GameObject::setPosition(float x, float y){
   this->x=x;
   this->y=y;
-  int buff_x=static_cast<int>(x)/16;
-  int buff_y=static_cast<int>(y)/16;
-  MAP2[buff_y][buff_x]=getType();
 
 }
 bool GameObject::getRespawnOutOfScreen(){
@@ -142,6 +140,9 @@ void GameObject::setFacingSide(int side){
   this->side=side;
 }
 
+int GameObject::getDirection(){return dir;}
+void GameObject::setDirection(int dir){this->dir=dir;}
+
 bool GameObject::collision(GameObject _object1,GameObject _object2){
   return   !(_object2.getPositionX()>=_object1.getPositionX()+_object1.getWidth() ||
             _object2.getPositionX()+_object2.getWidth()<=_object1.getPositionX()  ||
@@ -151,12 +152,17 @@ bool GameObject::collision(GameObject _object1,GameObject _object2){
 
 bool GameObject::tileMapCollision(unsigned int Map[][20]){
   int x=getPositionX()/16,y=getPositionY()/16;
-
-    return (Map[y][x]!=0);
-            // Map[y][x+1]!=0 ||
-            // Map[y+1][x]!=0);
-
+    return (Map[y][x]!=0  ||
+            Map[y][x+1]!=0 ||
+            Map[y+1][x]!=0);
 }
+
+// bool GameObject::tileMapCollision(){
+//   int buff_x=getPositionX()/16,buff_y=getPositionY()/16;
+//   int buff_pos=(buff_y*Map.getWidth())+buff_x;
+//   unsigned int *buff_map=Map.getMap();
+//   return (buff_map[buff_pos]!=0);
+// }
 void GameObject::gravitationalPull(GameObject _object1,GameObject _object2){
   if(!collision(_object1, _object2)){
     float step=0;

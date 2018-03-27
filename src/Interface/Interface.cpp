@@ -44,7 +44,7 @@ void Interface::draw(){
   VGA.drawText("About",INTRWIDTH,(HEIGHT/2)+50,WHITE);
 }
 void Interface::select(){
-  switch(input.getInput()){
+  switch(keyboard.read()){
     case MENU_KEY_UP:Interface::move(MENU_UP);break;
     case MENU_KEY_DOWN:Interface::move(MENU_DOWN);break;
     case MENU_KEY_SELECT:Interface::menuSelect(menu_pos);break;
@@ -88,7 +88,7 @@ void Interface::menuSelect(int item){
 void Interface::menuAbout(){
   // VGA.clear();
   delay(200);
-  while(input.getInput()!=MENU_KEY_SELECT){
+  while(keyboard.read()!=MENU_KEY_SELECT){
     VGA.drawText("Hello,",0,0,255);
     VGA.drawText("We are the Fluffy bears team",0,10,255);
     VGA.drawText("This is our Arduino based project",0,20,255);

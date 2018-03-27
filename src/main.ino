@@ -4,25 +4,24 @@
 // #include <SchedulerARMAVR.h>
 
 #include "GameEngine.h"
+#include <PS2Keyboard.h>
+
+bool first=1;
+bool enable=false;
 
 GameObject Player(tank_left,tank_left_palette);
 GameObject Enemy(tank_left,tank_left_palette);
 Bullet bull;
-Input input(KEYBOARD);
 
 Interface interface;
+
+PS2Keyboard keyboard;
 MapEditor Map;
-
-int cursor_x,cursor_y;
-int bullet_x=0;
-int bullet_y=0;
-
-float player_x=280,player_y=SPAWN_POSITION;
-float enemy_x=SPAWN_POSITION,enemy_y=SPAWN_POSITION;
+float enemy_x,enemy_y;
+float player_x,player_y;
+int bullet_x,bullet_y;
 
 int AIdir=1;
-int PlayerDir=2;
-
 
 long t;
 long shootTime;
@@ -30,7 +29,9 @@ long shootTime;
 void setup() {
   randomSeed(analogRead(A0));
   Serial.begin(9600);
-  input.begin();
+
+  keyboard.begin(SHIELD_DATAPIN,SHIELD_IRQ);
+
   VGA.begin(320,240,VGA_COLOR);
   Enemy.setType(ENEMY);
   Player.setType(PLAYER);
@@ -39,14 +40,19 @@ void setup() {
   interface.bootScreen();
 
   //Interface
-    // interface.begin();
+    interface.begin();
     VGA.clear();
+
+  Player.setPosition(20,20);
+  Enemy.setPosition(270,200);
+  Player.update();
+  Serial.println("I am availbal");
 
   //Start the second thread
   Scheduler.startLoop(loop2);
 
 }
-bool first=1;
+
 
 void loop() {
   //Map
@@ -54,166 +60,53 @@ void loop() {
 
   //Main Game
 
-  if(input.getInput()==psxX){
-    bull.shoot(Player);
-  }
-
-  Map.drawMap_2d(MAP2);
-  gameObjectMove();
-
+  tankMove();
+  enemyMove();
 
   if(millis()-t>=2000 || first==1){
     // VGA.clear();
     AIdir=random(1,5);
-    PlayerDir=random(1,5);
-
     t=millis();
     first=0;
   }
-  if(millis()-shootTime>=10000 || first){
-    bull.shoot(Player);
-    first=0;
-  }
 
-  delay(1);
-}
+  // if(keyboard.available() && keyboard.read()=='f'){
+  // }
 
-//Second thread for backgroung processing
-void loop2(){
-  bull.loop(Player);
-  bull.loop(Enemy);
-  //Used to pass task to other tasks
   delay(1);
   yield();
 
 }
 
+//Second thread for backgroung processing
+void loop2(){
+  bull.loop(Player);
+  // bull.loop(Enemy);
+  Map.drawMap_1d(MAP);
 
-void gameObjectMove(){
-  Player.update();
-  Player.setPosition(player_x, player_y);
-  Player.draw();
-  tankMove();
-  Enemy.update();
-  Enemy.setPosition(enemy_x, enemy_y);
-  Enemy.draw();
-  enemyMove();
+  //Used to pass task to other threads
+  delay(1);
+  yield();
+
 }
 
 void tankMove(){
-  int buff_y;
-  int buff_x;
+  switch(keyboard.read()){
+    case 'd':Player.setFacingSide(RIGHT);Player.setSprite(tank_right,tank_right_palette);Player.move(RIGHT,1);break;
+    case 'a':Player.setFacingSide(LEFT);Player.setSprite(tank_left,tank_left_palette);Player.move(LEFT,1);break;
+    case 'w':Player.setFacingSide(UP);Player.setSprite(tank_up,tank_up_palette);Player.move(UP,1);break;
+    case 's':Player.setFacingSide(DOWN);Player.setSprite(tank_down,tank_down_palette);Player.move(DOWN,1);break;
+    case PS2_ENTER:bull.shoot(Player);break;
+  }
 
-    switch (PlayerDir) {
-    // switch (input.getInput()) {
-      // case psxRight:
-        case RIGHT:
-        buff_y=static_cast<int>((Player.getPositionY())/16);
-        buff_x=static_cast<int>((Player.getPositionX()/16)+1);
-        if(!(MAP2[buff_y+1][buff_x]!=0 || MAP2[buff_y][buff_x]!=0)){
-          player_x+=Player.getSpeed();
-          Player.setSprite(tank_right,tank_right_palette);
-          Player.setFacingSide(RIGHT);
-        }
-        else{
-          PlayerDir=random(1,5);
-        }
-        break;
-      // case psxLeft:
-        case LEFT:
-        buff_y=static_cast<int>((Player.getPositionY())/16);
-        buff_x=static_cast<int>(Player.getPositionX()/16);
-        if(!(MAP2[buff_y+1][buff_x]!=0 || MAP2[buff_y][buff_x]!=0)){
-          player_x-=Player.getSpeed();
-          Player.setSprite(tank_left,tank_left_palette);
-          Player.setFacingSide(LEFT);
-      }
-      else{
-        PlayerDir=random(1,5);
-      }
-        break;
-      // case psxDown:
-        case DOWN:
-        buff_y=static_cast<int>((Player.getPositionY()/16)+1);
-        buff_x=static_cast<int>((Player.getPositionX()/16));
-        if(!(MAP2[buff_y][buff_x+1]!=0 || MAP2[buff_y][buff_x]!=0)){
-          player_y+=Player.getSpeed();
-          Player.setSprite(tank_down,tank_down_palette);
-          Player.setFacingSide(DOWN);
-        }
-        else{
-          PlayerDir=random(1,5);
-        }
-        break;
-      // case psxUp:
-        case UP:
-        buff_y=static_cast<int>((Player.getPositionY()/16));
-        buff_x=static_cast<int>(Player.getPositionX()/16);
-        if(!(MAP2[buff_y][buff_x+1]!=0 || MAP2[buff_y][buff_x]!=0)){
-          player_y-=Player.getSpeed();
-          Player.setSprite(tank_up,tank_up_palette);
-          Player.setFacingSide(UP);
-        }
-        else{
-          PlayerDir=random(1,5);
-        }
-        break;
-    }
 }
 
 
 void enemyMove(){
-  int buff_y;
-  int buff_x;
-
-    switch (AIdir) {
-      case RIGHT:
-        buff_y=static_cast<int>((Enemy.getPositionY())/16);
-        buff_x=static_cast<int>((Enemy.getPositionX()/16)+1);
-        if(!(MAP2[buff_y+1][buff_x]!=0 || MAP2[buff_y][buff_x]!=0)){
-          enemy_x+=Enemy.getSpeed();
-          Enemy.setSprite(tank_right,tank_right_palette);
-          Enemy.setFacingSide(RIGHT);
-        }
-        else{
-          AIdir=random(1,5);
-        }
-        break;
-      case LEFT:
-        buff_y=static_cast<int>((Enemy.getPositionY())/16);
-        buff_x=static_cast<int>(Enemy.getPositionX()/16);
-        if(!(MAP2[buff_y+1][buff_x]!=0 || MAP2[buff_y][buff_x]!=0)){
-          enemy_x-=Enemy.getSpeed();
-          Enemy.setSprite(tank_left,tank_left_palette);
-          Enemy.setFacingSide(LEFT);
-      }
-      else{
-        AIdir=random(1,5);
-      }
-        break;
-      case DOWN:
-        buff_y=static_cast<int>((Enemy.getPositionY()/16)+1);
-        buff_x=static_cast<int>((Enemy.getPositionX()/16));
-        if(!(MAP2[buff_y][buff_x+1]!=0 || MAP2[buff_y][buff_x]!=0)){
-          enemy_y+=Enemy.getSpeed();
-          Enemy.setSprite(tank_down,tank_down_palette);
-          Enemy.setFacingSide(DOWN);
-        }
-        else{
-          AIdir=random(1,5);
-        }
-        break;
-      case UP:
-        buff_y=static_cast<int>((Enemy.getPositionY()/16));
-        buff_x=static_cast<int>(Enemy.getPositionX()/16);
-        if(!(MAP2[buff_y][buff_x+1]!=0 || MAP2[buff_y][buff_x]!=0)){
-          enemy_y-=Enemy.getSpeed();
-          Enemy.setSprite(tank_up,tank_up_palette);
-          Enemy.setFacingSide(UP);
-        }
-        else{
-          AIdir=random(1,5);
-        }
-        break;
-    }
+  switch (AIdir) {
+    case RIGHT:Enemy.setFacingSide(RIGHT);Enemy.setSprite(tank_right,tank_right_palette);Enemy.move(RIGHT,1);break;
+    case LEFT:Enemy.setFacingSide(LEFT);Enemy.setSprite(tank_left,tank_left_palette);Enemy.move(LEFT,1);break;
+    case UP:Enemy.setFacingSide(UP);Enemy.setSprite(tank_up,tank_up_palette);Enemy.move(UP,1);break;
+    case DOWN:Enemy.setFacingSide(DOWN);Enemy.setSprite(tank_down,tank_down_palette);Enemy.move(DOWN,1);break;
   }
+}

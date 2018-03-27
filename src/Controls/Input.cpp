@@ -7,7 +7,7 @@ Input::Input(int type){
 void Input::begin(){
   switch (type) {
     case KEYBOARD:
-      // keyboard.begin();
+      keyboard.begin();
       break;
     case PS_CONTROLLER:
       psx.begin();

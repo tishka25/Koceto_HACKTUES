@@ -8,6 +8,7 @@ extern GameObject bull;
 extern int bullet_x,bullet_y;
 extern float enemy_x,enemy_y;
 extern float player_x,player_y;
+extern bool enable;
 
 long t1;
 
@@ -68,8 +69,8 @@ bool Bullet::collision(){
 void Bullet::shoot(GameObject gameObject){
   bool first=1;
   if(millis()-t1>=500||first==1)
-      bullet_x=gameObject.getPositionX()+(gameObject.getWidth()/2);
-      bullet_y=(gameObject.getPositionY())+(gameObject.getHeight()/2);
+      // bullet_x=gameObject.getPositionX()+(gameObject.getWidth()/2);
+      // bullet_y=(gameObject.getPositionY())+(gameObject.getHeight()/2);
       enable=true;
       t1=millis();
       first=0;
@@ -80,24 +81,32 @@ void Bullet::loop(GameObject gameObject){
   int _side=gameObject.getFacingSide();
   switch (_side) {
     case LEFT :
+    bullet_x=gameObject.getPositionX()-5;
+    bullet_y=(gameObject.getPositionY())+(gameObject.getHeight()/2);
       while (!(MAP2[bullet_y/16][bullet_x/16])
          && !collision()) {drawAtPosition(bullet_x,bullet_y);bullet_x-=getSpeed();update();delayMicroseconds(800);}
          if(collision()){Enemy.setSprite(bullet,bullet_palette);VGA.fillRect(enemy_x,enemy_y,enemy_x+16,enemy_y+16,Map.getBackgroundColor());
           SPAWN_POSITION3  Enemy.draw();}
         break;
     case RIGHT:
+    bullet_x=gameObject.getPositionX()+(gameObject.getWidth());
+    bullet_y=(gameObject.getPositionY())+(gameObject.getHeight()/2);
       while (!(MAP2[bullet_y/16][bullet_x/16])
         && !collision()) {drawAtPosition(bullet_x,bullet_y);bullet_x+=getSpeed();update();delayMicroseconds(800);}
         if(collision()){Enemy.setSprite(bullet,bullet_palette);VGA.fillRect(enemy_x,enemy_y,enemy_x+16,enemy_y+16,Map.getBackgroundColor());
           SPAWN_POSITION2  Enemy.draw();}
         break;
     case UP:
+    bullet_x=gameObject.getPositionX()+(gameObject.getWidth()/2);
+    bullet_y=gameObject.getPositionY()-5;
         while (!(MAP2[bullet_y/16][bullet_x/16])
           && !collision()) {drawAtPosition(bullet_x,bullet_y);bullet_y-=getSpeed();update();delayMicroseconds(800);}
           if(collision()){Enemy.setSprite(bullet,bullet_palette);VGA.fillRect(enemy_x,enemy_y,enemy_x+16,enemy_y+16,Map.getBackgroundColor());
           SPAWN_POSITION3  Enemy.draw();}
         break;
     case DOWN:
+    bullet_x=gameObject.getPositionX()+(gameObject.getWidth()/2);
+    bullet_y=(gameObject.getPositionY())+(gameObject.getHeight());
         while (!(MAP2[bullet_y/16][bullet_x/16])
           && !collision()) {drawAtPosition(bullet_x,bullet_y);bullet_y+=getSpeed();update();delayMicroseconds(800);}
           if(collision()){Enemy.setSprite(bullet,bullet_palette);VGA.fillRect(enemy_x,enemy_y,enemy_x+16,enemy_y+16,Map.getBackgroundColor());
