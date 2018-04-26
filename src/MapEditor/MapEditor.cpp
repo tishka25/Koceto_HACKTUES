@@ -1,8 +1,10 @@
 #include "MapEditor.h"
-
 GameObject spriteSelector;
 GameObject gameObject;
 static int GridArray [15][20];
+
+
+using namespace std;
 
 
 MapEditor::MapEditor(){}
@@ -19,6 +21,19 @@ int MapEditor::getBackgroundColor(){
 
 int MapEditor::getWidth(){return width;}
 int MapEditor::getHeight(){return height;}
+
+
+void MapEditor::fillMap(std::vector<GameObject>&Map,unsigned int *_map){
+	for(int x=0;x<width;x++){
+		for(int y=0;y<height;y++){
+			int pos=(y*width)+x;
+			if(_map[pos]==BRICKS_DESTRUCTIVE){
+				Map.push_back(new GameObject(bricks_destructive,bricks_destructive_palette,x*16,y*16));
+			}
+		}
+
+	}
+}
 
 void MapEditor::drawMap_1d(unsigned int *_map){
 	for(int x=0;x<width;x++){

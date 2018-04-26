@@ -3,8 +3,8 @@
 #ifndef KEYBOARD_H
 #define KEYBOARD_H
 
-#define SHIELD_DATAPIN 2
-#define SHIELD_IRQ  3
+#define SHIELD_DATAPIN  8
+#define SHIELD_IRQ      9
 
 class Keyboard{
 public:

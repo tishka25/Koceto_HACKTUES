@@ -4,6 +4,9 @@
 #include <Controls/Input.h>
 // #include <Controls/Keyboard.h>
 #include <Psx.h>
+#include <vector>
+#include <stdio.h>
+
 
 #ifndef MAP_EDITOR_H
 #define MAP_EDITOR_H
@@ -15,6 +18,9 @@
 #define TRANSPARENT -256
 
 
+GameObject g;
+
+
 class MapEditor{
   public:
     int xCursor,x_prev;
@@ -22,7 +28,6 @@ class MapEditor{
     int BACKGROUND_COLOR=0;
     int width=WIDTH/16,height=HEIGHT/16;
     unsigned int *_map;
-
 
     MapEditor();
     void begin();
@@ -37,6 +42,7 @@ class MapEditor{
 
     unsigned int* getMap();
     void setMap(unsigned int *_map);
+    void fillMap(std::vector<GameObject>&Map,unsigned int *_map);
 
     int getBackgroundColor();
     void drawMap_1d(unsigned int *_map);

@@ -42,7 +42,6 @@ void GameObject::outOfScreen(){
 }
 
 void GameObject::move(int dir, float speed){
-  // speed/=100;
   int buff_x,buff_y;
   switch (dir) {
     case RIGHT:
@@ -79,7 +78,6 @@ void GameObject::draw(){
 void GameObject::drawAtPosition(int x,int y){
   setPosition(x,y);
   draw();
-  // bitmap.drawSprite(sprite,sprite_palette,0,x,y);
 }
 float GameObject::getPositionX(){
   return x;
